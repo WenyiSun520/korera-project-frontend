@@ -1,0 +1,59 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+  height: 50px;
+}
+
+.header .logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 16px;
+  color: white;
+  background-color: orange;
+  width: 200px;
+  height: 100%;
+}
+
+.header .headerInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 40%;
+}
+.header .headerInfo div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header .headerInfo .user span {
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.header .headerInfo .user {
+  position: relative;
+}
+app-profile {
+  position: absolute;
+  z-index: 999;
+  transform: translateY(70px);
+}
+
+app-profile::before {
+  content: " ";
+  position: absolute;
+  color: black;
+  top: 7px; /* Adjust the positioning as needed */
+  left: calc(50% - 15px); /* Adjust the positioning as needed */
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent; /* Half of the desired base width */
+  border-right: 10px solid transparent; /* Half of the desired base width */
+  border-bottom: 12px solid black;
+}

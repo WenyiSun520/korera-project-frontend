@@ -1,0 +1,11 @@
+<section class="navbarSection">
+
+<i class="fa-solid fa-arrow-left" *ngIf="toggleMenu === true" (click)="toggleMenuClosed()"></i>
+<i class="fa-solid fa-arrow-right" *ngIf="toggleMenu === false" (click)="toggleMenuOpen()"></i>
+<nav class="nav-bar" *ngIf="toggleMenu === true">
+  <a [routerLink]="['resource-list']">Resource</a>
+  <a [routerLink]="['project-list']">Projects</a>
+  <a>Formular</a>
+</nav>
+
+</section>

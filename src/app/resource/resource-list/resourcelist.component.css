@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+.resourceTable {
+  border-collapse: collapse;
+  /* border: 1px solid grey; */
+}
+.resourceTable tbody {
+  overflow-y: scroll;
+}
+
+.resourceTable thead th {
+  background-color: lightgrey;
+  border: 1px solid grey;
+}
+
+.resourceTable tbody tr {
+  width: 100%;
+  height: 5px;
+}
+
+.resourceTable tbody tr input {
+  width: 80%;
+  border: 1px solid orange;
+  margin-left: 5px;
+}
+
+.fa-circle-check,
+.fa-circle-xmark {
+  font: 16px;
+  color: orange;
+  display: inline;
+  margin: 2px;
+}
+.resourceTable tbody tr td {
+  text-align: left;
+  padding: 5px;
+  height: 5px;
+}

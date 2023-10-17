@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
+.projectList {
+  width: 100%;
+  height:600px;
+  border: 1px solid gray;
+}
+.projectHeader {
+  display: flex;
+  flex-direction: row;
+  background-color: gray;
+  padding: 5px;
+}
+
+.projectHeader .headerTitle {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.projectHeader .fa-trash-can {
+  background-color: orange;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  text-align: center;
+  margin: 3px;
+}
+
+.projectTable {
+  width: 100%;
+  border-collapse: collapse;
+  /* border: 1px solid grey; */
+}
+.projectTable tbody {
+  overflow-y: scroll;
+}
+
+.projectTable thead th {
+  background-color: lightgrey;
+  border: 1px solid grey;
+}
+
+.projectTable tbody tr {
+  width: 100%;
+  height: 5px;
+}
+
+.projectTable tbody tr td {
+  text-align: left;
+  padding: 5px;
+  height: 5px;
+}

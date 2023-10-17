@@ -1,0 +1,19 @@
+<div class="projectPage">
+  <div class="dropdown">
+    <input type="text" [(ngModel)]="currSelction"/>
+    <button class="dropbtn" (click)="toggleDropdown()" *ngIf="!isDropdownOpend">
+      <i class="fa-solid fa-caret-down"></i>
+    </button>
+    <button class="dropbtn" *ngIf="isDropdownOpend" (click)="toggleDropdown()">
+      <i class="fa-solid fa-caret-up"></i>
+    </button>
+    <div class="dropdown-content" *ngIf="isDropdownOpend">
+      <p *ngFor="let name of nameList" (click)="selectProject(name)">{{name}}</p>
+    </div>
+  </div>
+
+   <div class="tables">
+    <app-resource-table></app-resource-table>
+    <app-project-table></app-project-table>
+   </div>
+</div>

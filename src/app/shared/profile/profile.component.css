@@ -1,0 +1,17 @@
+
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: whitesmoke;
+  margin: 20px;
+  width: max-content;
+}
+
+.profile .btns {
+  width: 100%;
+  background-color: gray;
+}

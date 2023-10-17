@@ -1,0 +1,26 @@
+
+
+<div class="resourceDetailTable">
+<table class="singleDetailTable" *ngFor="let resourceDetail of resourceDetailList; let index=index">
+  <thead> 
+    <th>{{resourceDetail.name}}</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{resourceDetail.description}}</td>
+    </tr>
+  </tbody>
+</table>
+<table class="addSingleDetailTable" *ngIf="toggleNewColumnInput">
+  <thead> 
+    <th><input type="text" placeholder="Resource Detail Name...">  <i class="fa-solid fa-circle-check" (click)="submitInput()"></i
+        ><i class="fa-solid fa-circle-xmark" (click)="cancelInput()" [(ngModel)]="newResourceDetailName"></i
+        ></th>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td>{{resourceDetail.description}}</td> -->
+    </tr>
+  </tbody>
+</table>
+</div>

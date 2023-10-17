@@ -1,0 +1,19 @@
+<div class="resourceList">
+<header class="resourceHeader">
+    <p class="headerTitle">Resource Catalog</p>
+    <i class="fa-solid fa-list-ul"></i>
+    <i class="fa-solid fa-rotate-left"></i>
+</header>
+<table class="resourceTable">
+  <thead>
+    <th>Resource Code</th>
+    <th>Resource Name</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let resource of resourceList; let index = index">
+      <td><input type="checkbox" id={{resource.id}} value={{resource.id}}>{{ resource.id }}</td>
+      <td>{{ resource.resource_name }}</td>
+    </tr>
+  </tbody>
+</table>
+</div>

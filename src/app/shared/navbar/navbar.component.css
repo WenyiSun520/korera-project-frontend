@@ -1,0 +1,39 @@
+/* :host {
+    height: 100%; 
+} */
+
+.navbarSection {
+  position: relative;
+}
+.navbarSection .fa-arrow-left,
+.navbarSection .fa-arrow-right {
+  color: whitesmoke;
+  background-color: black;
+  padding: 10px;
+  border-radius: 0 8px 8px 0;
+}
+
+.navbarSection .fa-arrow-left {
+  position: absolute;
+  z-index: 999;
+  transform: translate(109px, 0px);
+}
+
+.nav-bar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: rgb(23, 22, 22);
+  color: whitesmoke;
+  padding: 10px;
+  width: fit-content;
+  height: inherit;
+  margin: 0;
+}
+
+.nav-bar a {
+  padding: 10px;
+  margin: 5px;
+  height: fit-content;
+}

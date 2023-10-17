@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
+.resourceList {
+    width:100%;
+      height:600px;
+    border:1px solid gray;
+}
+.resourceHeader {
+  display: flex;
+  flex-direction: row;
+  background-color: gray;
+  padding: 5px;
+}
+
+.resourceHeader .headerTitle{
+    flex-grow: 1;
+    text-align: center;
+}
+
+.resourceHeader .fa-list-ul, .resourceHeader .fa-rotate-left{
+    background-color: orange;
+    color:white;
+    padding: 5px;
+    border-radius: 3px;
+    text-align: center;
+    margin:3px;
+}
+.resourceTable {
+  width: 100%;
+
+  border-collapse: collapse;
+  /* border: 1px solid grey; */
+}
+.resourceTable tbody {
+  overflow-y: scroll;
+}
+
+.resourceTable thead th {
+  background-color: lightgrey;
+  border: 1px solid grey;
+}
+
+.resourceTable tbody tr {
+  width: 100%;
+  height: 5px;
+}
+
+.resourceTable tbody tr td {
+  text-align: left;
+  padding: 5px;
+height: 5px;
+}

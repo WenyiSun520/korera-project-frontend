@@ -1,0 +1,30 @@
+<div id="resource">
+  <header class="resourceHeader">
+    <div class="searchbox">
+      <input type="text" placeholder="keywords" size="15" />
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+    <p class="headerTitle">Resource Catalog</p>
+    <div class="editResourceTable">
+      <i class="fa-solid fa-plus" (click)="handleToggleOptions()"></i>
+      <div class="editOptions" *ngIf="toggleOptions">
+        <span class="addRow" (click)="openNewResourceInput()"
+          ><i class="fa-solid fa-bars-staggered"></i>Add Row</span
+        >
+        <span class="addRow" (click)="openNewColumnInput()"
+          ><i class="fa-solid fa-table-columns"></i>Add Column</span
+        >
+        <span class="addRow"
+          ><i class="fa-solid fa-file-csv"></i>Import CSV</span
+        >
+      </div>
+    </div>
+  </header>
+  <table class="joinedTable">
+    <app-resourcelist
+      [toggleNewResourceInput]="toggleNewResourceInput"
+      (closeNewResourceInput)="closeNewResourceInput($event)"
+    ></app-resourcelist>
+    <app-resource-detail [toggleNewColumnInput]="toggleNewColumnInput" (closeNewColumnInput)="closeNewColumnInput($event)"></app-resource-detail>
+  </table>
+</div>

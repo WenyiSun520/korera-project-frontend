@@ -1,0 +1,49 @@
+
+<table class="resourceTable">
+  <thead>
+    <th>Resource Code</th>
+    <th>Resource Name</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let resource of resourceList; let index = index">
+      <td>{{ resource.id }}</td>
+      <td>{{ resource.resource_name }}</td>
+    </tr>
+    <tr>
+      <td>Marbel</td>
+      <td>000200</td>
+    </tr>
+    <tr>
+      <td>Marbel</td>
+      <td>000200</td>
+    </tr>
+    <tr>
+      <td>Marbel</td>
+      <td>000200</td>
+    </tr>
+    <tr>
+      <td>Marbel</td>
+      <td>000200</td>
+    </tr>
+    <tr *ngIf="toggleNewResourceInput">
+      <td>
+        <input
+          class="codeinput"
+          type="text"
+          placeholder="Resource' code"
+          [(ngModel)]="newResourceCode"
+        />
+      </td>
+      <td>
+        <i class="fa-solid fa-circle-check" (click)="submitInput()"></i
+        ><i class="fa-solid fa-circle-xmark" (click)="cancelInput()"></i
+        ><input
+          class="nameinput"
+          type="text"
+          placeholder="Resource's name"
+          [(ngModel)]="newResourceName"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
