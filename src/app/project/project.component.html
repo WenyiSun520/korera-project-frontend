@@ -1,20 +1,38 @@
 <div class="projectPage">
   <div class="dropdown">
-    <input type="text" [(ngModel)]="currSelction"/>
+    <p class="currentSelection">{{nameList[0]}}</p>
     <button class="dropbtn" (click)="toggleDropdown()" *ngIf="!isDropdownOpend">
       <i class="fa-solid fa-caret-down"></i>
     </button>
     <button class="dropbtn" *ngIf="isDropdownOpend" (click)="toggleDropdown()">
       <i class="fa-solid fa-caret-up"></i>
     </button>
+    <button class="dropbtn" (click)="toggleCretedProjectWindow()">
+      <i class="fa-solid fa-plus"></i>
+    </button>
     <div class="dropdown-content" *ngIf="isDropdownOpend">
-      <p *ngFor="let name of nameList" (click)="selectProject(name)">{{name}}</p>
+      <p *ngIf="projectList.length === 0">
+        You havn't created any project yet!
+      </p>
+      <p *ngFor="let name of nameList" (click)="selectProject(name)">
+        {{ name }}
+      </p>
+    </div>
+
+    <div class="createproject-content" *ngIf="isCreatedProjectWindowOpend">
+      <label name="projectName">Project Name:</label>
+      <input id="projectName" type="text" [(ngModel)]="createdProjectName" />
+      <button type="submit" (click)="createProject()">Create</button>
+      <p>{{ createdProjectErr }}</p>
     </div>
   </div>
 
-   <div class="tables">
-    <app-resource-table (selectedResource)="addResourceToList($event)"></app-resource-table>
+  <div class="tables">
+    <!-- <app-resource-table (selectedResource)="addResourceToList($event)"></app-resource-table>
     <app-project-table [resourceList]="resourceList" (submitDeletedList)="
-  removedResourceFromList($event)"></app-project-table>
-   </div>
+  removedResourceFromList($event)"></app-project-table> -->
+
+    <app-resource-table [isLProjectTableRemovedList]="isListUpdated"></app-resource-table>
+    <app-project-table [currentProject]="currentProject" (isListUpdated)="handleBooleanValue($event)"></app-project-table>
+  </div>
 </div>

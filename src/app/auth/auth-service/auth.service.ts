@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpParams,
-  HttpHeaders
-} from '@angular/common/http';
-import { catchError} from 'rxjs/operators';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { SERVER_ADDRESS } from 'src/app/shared/serverAddress';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { errorHandler } from 'src/app/shared/errorHandler';
@@ -13,8 +9,8 @@ import { errorHandler } from 'src/app/shared/errorHandler';
   providedIn: 'root',
 })
 export class AuthService {
-  private token:any;
-  private username:any;
+  private token: any;
+  private username: any;
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
   authenticate(username: any, passwords: any) {
@@ -31,33 +27,55 @@ export class AuthService {
         complete: () => {
           if (typeof Storage !== 'undefined') {
             localStorage.setItem('token', this.token.token);
-            this.username = username+"";
-            console.log("authenticate(): "+this.username)
+            this.username = username + '';
+            console.log('authenticate(): ' + this.username);
           } else {
             console.log('localstorage is not availble');
           }
         },
       });
-      
+  }
 
-      
+  signUp(obj: any) {
+    console.log(obj);
+    this.http
+      .post(`${SERVER_ADDRESS}api/auth/registere`, {
+        username: obj.username,
+        password: obj.password,
+        fname: obj.fname,
+        lname: obj.lname,
+      })
+      .subscribe({
+        next: (data) => (this.token = data),
+        error: (err) => {
+          catchError(errorHandler);
+        },
+        complete: () => {
+          if (typeof Storage !== 'undefined') {
+            localStorage.setItem('token', this.token.token);
+            this.username = obj.username + '';
+            console.log('authenticate(): ' + this.username);
+          } else {
+            console.log('localstorage is not availble');
+          }
+        },
+      });
   }
 
   isAuthenticated() {
     return !this.jwtHelper.isTokenExpired(localStorage.getItem('token'));
   }
 
-  getToken(){
+  getToken() {
     return localStorage.getItem('token');
   }
-  getUsername(){
-    
+  getUsername() {
     return this.jwtHelper.decodeToken(this.getToken() as string).sub;
   }
 
   getUser(username: string) {
-   // console.log(`Bearer ${this.token.token}`);
-  
+    // console.log(`Bearer ${this.token.token}`);
+
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.getToken()!}`,
     });
@@ -67,11 +85,8 @@ export class AuthService {
       params: params,
     });
 
-   return userRequest.pipe(catchError(errorHandler));
+    return userRequest.pipe(catchError(errorHandler));
   }
 
-  signUp() {}
-
   logout() {}
-
 }

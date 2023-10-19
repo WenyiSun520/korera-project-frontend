@@ -25,7 +25,7 @@ export class AppComponent {
     if (this.authService.isAuthenticated()) {
       this.isAuthenticated = this.authService.isAuthenticated();
       this.token = this.authService.getToken()!;
-      console.log('auth status changed');
+     // console.log('auth status changed');
       
     }
   }
@@ -44,7 +44,7 @@ export class AppComponent {
         error: (err) => console.error(err),
         complete: () => console.log('getUser() completed!'),
       });
-      console.log(this.user);
+     // console.log(this.user);
     }
   }
 }

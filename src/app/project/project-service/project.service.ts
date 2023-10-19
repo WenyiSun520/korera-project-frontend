@@ -1,47 +1,103 @@
-import { Injectable, OnInit } from '@angular/core';
-import { Project } from '../project';
-import { Resource } from 'src/app/resource/resource';
+import { Injectable } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth-service/auth.service';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
+import { SERVER_ADDRESS } from 'src/app/shared/serverAddress';
+import { catchError, throwError } from 'rxjs';
+import { errorHandler } from 'src/app/shared/errorHandler';
+
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProjectService implements OnInit {
-  projectNameList: string[] = [];
-  selectedProject:Project;
-  projectList: Project[] = [
-    new Project(1100, 'Project One', 'Jone Doe'),
-    new Project(1101, 'Project Two', 'Jone Doe'),
-    new Project(1102, 'Project Three', 'Jone Doe'),
-    new Project(1103, 'Project Four', 'Jone Doe'),
-  ];
+export class ProjectService {
+  projectList: any = [];
+  selectedResource: any = [];
+  toggleSelectAll: boolean = false;
+  
 
-  constructor() {
-     this.projectList.map((proj) => this.projectNameList.push(proj.name));
-     this.selectedProject = this.projectList[0];
-  }
-  ngOnInit(): void {
-   
-  }
-
-  getSelectedProject(){
-    return this.selectedProject;
-  }
+  constructor(private authService: AuthService, private http: HttpClient) {}
 
   getProjectList() {
-    return this.projectList;
-  }
-  getProjectNameList() {
-    return this.projectNameList;
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.getToken()!}`,
+    });
+
+    let getProjectsRequest = this.http.get(
+      `${SERVER_ADDRESS}api/projects/search_by_username?username=${this.authService.getUsername()}`,
+      {
+        headers: headers,
+      }
+    );
+
+    return getProjectsRequest.pipe(catchError(errorHandler));
   }
 
-  setSelectProject(name:string){
-    let index = this.projectList.findIndex((pro)=>pro.name === name);
-    this.selectedProject = this.projectList[index]
-    return this.selectedProject;
-
+  getSelectedResource() {
+    return this.selectedResource;
   }
-  addResourceToProject(resource:Resource){
-    this.selectedProject.resourceList.push(resource);
-    
+
+  createProject(name: string) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.getToken()!}`,
+    });
+
+    this.http
+      .post(
+        `${SERVER_ADDRESS}api/projects/${this.authService.getUsername()}/add_new_project`,
+        {
+          projectName: name,
+        },
+        {
+          headers: headers,
+        }
+      )
+      .subscribe({
+        error: (error) => console.log(error),
+      });
+  }
+
+  addAll(resouce: any[]) {
+    //console.log(resouce)
+    this.selectedResource.push(...resouce);
+  }
+  removeAll(resource: any[]) {
+    this.selectedResource = this.selectedResource.filter(
+      (re: any) => !resource.includes(re)
+    );
+    console.log('selectedResource: ', this.selectedResource);
+  }
+
+  addResourceToProject(currentProject: any) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.getToken()!}`,
+    });
+    console.log(currentProject.projectName);
+    console.log(currentProject.projectId);
+
+    let resourceArr: any = [];
+    this.selectedResource.map((resource: any) => {
+      let obj = {
+        resourceName: resource.resourceName,
+      };
+      resourceArr.push(obj);
+    });
+
+    this.http
+      .post(
+        `${SERVER_ADDRESS}api/resource/${this.authService.getUsername()}/${
+          currentProject.projectId
+        }/add_resource`,
+        resourceArr,
+        {
+          headers: headers,
+        }
+      )
+      .subscribe({
+        error: (error) => console.log(error),
+      });
   }
 }

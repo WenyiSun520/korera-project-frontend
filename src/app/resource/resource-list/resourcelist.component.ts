@@ -21,18 +21,9 @@ export class ResourcelistComponent implements OnChanges{
   constructor(private resourceService: ResourceService) {}
   ngOnChanges(changes: SimpleChanges): void {
      if (changes['resourceList']) {
-       console.log(changes['resourceList'].currentValue)
+       //console.log(changes['resourceList'].currentValue)
        this.resourceList = changes['resourceList'].currentValue;
      }
-    // if ('resourceList' in changes) {
-    //   const currentValue = changes.['resourceList'].currentValue;
-    //   const previousValue = changes.resourceList.previousValue;
-
-    
-    //   console.log(
-    //     `Previous value: ${previousValue}, Current value: ${currentValue}`
-    //   );
-    // }
   }
   
   submitInput() {

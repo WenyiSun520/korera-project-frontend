@@ -26,7 +26,7 @@ export class ResourceService {
     let getFilteredResourceRequest = this.http.get(
       `${SERVER_ADDRESS}api/resource/resource_name?q=${query}`,
       {
-        headers: headers,
+        headers: headers
       }
     );
     return getFilteredResourceRequest.pipe(catchError(errorHandler));

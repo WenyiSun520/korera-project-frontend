@@ -7,6 +7,22 @@
   position: relative;
   align-self: flex-end;
   padding: 20px;
+ 
+}
+.dropbtn {
+  background-color: unset;
+  border:unset;
+}
+.currentSelection {
+  display:inline;
+}
+.fa-solid {
+    background-color: orange;
+    color:white;
+    padding: 5px;
+    border-radius: 3px;
+    text-align: center;
+    margin:3px;
 }
 .dropdown-content {
   position: absolute;
@@ -31,4 +47,11 @@
 app-resource-table, app-project-table{
   flex-grow: 1;
   margin:5px;
+}
+
+.createproject-content {
+  display: flex;
+  flex-direction: column;
+  background-color: gray;
+  padding:5px;
 }
