@@ -1,42 +1,63 @@
-import { Component, Input, OnInit,Output,EventEmitter } from '@angular/core';
+import { Component, Input, OnInit,Output,EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResourceService } from '../resource-service/resource.service';
 import { Resource } from '../resource';
 
 @Component({
   selector: 'app-resourcelist',
   templateUrl: './resourcelist.component.html',
-  styleUrls: ['./resourcelist.component.css']
+  styleUrls: ['./resourcelist.component.css'],
 })
-export class ResourcelistComponent implements OnInit{
-  resourceList: any
-  newResourceName: string = ""
-  newResourceCode?: number
-  @Input()toggleNewResourceInput:boolean = false
+export class ResourcelistComponent implements OnChanges{
+  @Input() resourceList: any = [];
+  resourceForm = new FormGroup({
+    resourceID: new FormControl(''),
+    resourceName: new FormControl(''),
+  });
+
+  @Input() toggleNewResourceInput: boolean = false;
   @Output() closeNewResourceInput = new EventEmitter<boolean>();
 
+  constructor(private resourceService: ResourceService) {}
+  ngOnChanges(changes: SimpleChanges): void {
+     if (changes['resourceList']) {
+       console.log(changes['resourceList'].currentValue)
+       this.resourceList = changes['resourceList'].currentValue;
+     }
+    // if ('resourceList' in changes) {
+    //   const currentValue = changes.['resourceList'].currentValue;
+    //   const previousValue = changes.resourceList.previousValue;
 
-  constructor(private resourceService:ResourceService){
-
+    
+    //   console.log(
+    //     `Previous value: ${previousValue}, Current value: ${currentValue}`
+    //   );
+    // }
   }
-  ngOnInit(): void {
-    this.resourceList = this.resourceService.getResourceList();
-  }
-
-  submitInput(){
-    if(this.newResourceName !== "" && this.newResourceCode !== undefined){
-      this.resourceService.addResource(new Resource(this.newResourceCode!, this.newResourceName, "Jone Doe"))
+  
+  submitInput() {
+    if (this.resourceForm.value.resourceID === "" || this.resourceForm.value.resourceName === ""){
+        window.alert("please fill out all the fields")
     }else{
-      window.alert("Please complete the fields!")
-    }
+      let resourceID = +this.resourceForm.value.resourceID!;
+      this.resourceService
+        .addResource(resourceID, this.resourceForm.value.resourceName!)
+        .subscribe({
+          next: (data)=>console.log(data),
+          error: (err) => console.error(err),
+          complete: () =>{
+          this.resourceList.push({resourceID:resourceID, resourceName:this.resourceForm.value.resourceName!})
+            console.log('The request is completed!', this.resourceList)},
+        });
+
+        this.cancelInput();
+      }
+    
+  
   }
 
-  cancelInput(){
+  cancelInput() {
     this.closeNewResourceInput.emit(false);
-    this.newResourceCode = 1111;
-    this.newResourceName = "";
-
+    this.resourceForm.reset()
   }
-
-
-
 }

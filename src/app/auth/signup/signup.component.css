@@ -1,0 +1,56 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+}
+.username,
+.passwords,
+.confirmed {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.fullname .firstname,
+.fullname .lastname {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+.username,
+.passwords span,
+button {
+  width: max-content;
+}
+
+.username label,
+.passwords label {
+  margin: 5px;
+}
+input {
+  line-height: 2em;
+}
+
+input:focus {
+  border-color: orange; /* New border color when focused */
+  background-color: lightgoldenrodyellow; /* New background color when focused */
+  outline: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  font: 16px;
+  border-radius: 5px;
+  background-color: orange;
+  color: black;
+}
+
+.passwords button, .confirmed button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

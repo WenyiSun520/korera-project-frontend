@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent {
-  username:string = "John Doe"
-  joinedDate: Date = new Date()
+  @Input() user: any = {};
 
+  constructor() {}
 }

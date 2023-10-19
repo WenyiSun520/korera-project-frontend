@@ -1,7 +1,7 @@
 <div class="projectList">
 <header class="projectHeader">
     <p class="headerTitle">Project</p>
-    <i class="fa-solid fa-trash-can"></i>
+    <i class="fa-solid fa-trash-can" (click)="handleDeletion()"></i>
 </header>
 <table class="projectTable">
   <thead>
@@ -9,10 +9,10 @@
     <th>Resource Name</th>
   </thead>
   <tbody>
-    <!-- <tr *ngFor="let resource of resourceList; let index = index">
-      <td><input type="checkbox" id={{resource.id}} value={{resource.id}}>{{ resource.id }}</td>
+    <tr *ngFor="let resource of resourceList; let index = index">
+      <td><input type="checkbox" id={{resource.id}} value={{resource.id}} (click)="addToDeletedList(resource)">{{ resource.id }}</td>
       <td>{{ resource.resource_name }}</td>
-    </tr> -->
+    </tr>
   </tbody>
 </table>
 </div>

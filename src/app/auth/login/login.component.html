@@ -1,0 +1,35 @@
+<form class="loginForm" [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+  <h1>Welcome Back!</h1>
+  <div class="username">
+    <label for="username">Username: </label>
+    <input
+      id="username"
+      type="text"
+      placeholder="username"
+      formControlName="username"
+    />
+  </div>
+
+  <div class="passwords">
+    <label for="passwords">Passwords: </label>
+    <span>
+      <input
+        id="passwords"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="passwords"
+        formControlName="passwords"
+      />
+      <span (click)="togglePasswordVisibility()">
+        <i *ngIf="!showPassword" class="fa-regular fa-eye"></i>
+        <i *ngIf="showPassword" class="fa-regular fa-eye-slash"></i>
+      </span>
+    </span>
+  </div>
+
+  <button type="submit" [disabled]="!loginForm.valid">Log In</button>
+</form>
+<span>{{ ErrorMsg}}</span>
+<span>
+  Create account?
+  <button type="submit" (click)="navigateToSignUp()">Sign Up</button>
+</span>

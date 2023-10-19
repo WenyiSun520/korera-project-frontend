@@ -7,8 +7,8 @@
     <div class="projectName">{{currentProject}}</div>
     <div class="user" (click)="toggleProfile()">
         <i class="fa-regular fa-user fa-xl"></i>
-        <span>{{username}}</span>
-        <app-profile *ngIf="isProfileShowed"></app-profile>
+        <span>{{user.username}}</span>
+        <app-profile *ngIf="isProfileShowed" [user]="user"></app-profile>
     </div>
     <div class="help">
         <i class="fa-solid fa-info fa-xl"></i>

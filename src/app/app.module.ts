@@ -8,6 +8,10 @@ import { HeaderComponent } from './shared/header/header.component';
 import { ProfileComponent } from './shared/profile/profile.component';
 import { ResourceModule } from './resource/resource.module';
 import { ProjectModule } from './project/project.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthModule } from './auth/auth.module';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -19,9 +23,12 @@ import { ProjectModule } from './project/project.module';
   imports: [
     CommonModule,
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     ResourceModule,
     ProjectModule,
+    NoopAnimationsModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,7 +1,7 @@
 <div class="profile">
-    <p class="username">{{username}}</p>
+    <p class="username">{{user.fname}} {{user.lname}}</p>
     <p>Member since</p>
-    <p class="joinedDate">{{joinedDate | date: 'shortDate'}}</p>
+    <p class="joinedDate">{{user.created_date | date: 'shortDate'}}</p>
     <div class="btns">
         <button type="submit">Log Out</button>
     </div>

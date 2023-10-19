@@ -1,0 +1,75 @@
+<form class="loginForm" [formGroup]="signUpForm" (ngSubmit)="handleSubmit()">
+  <h1>Create your account</h1>
+  <div class="username">
+    <label for="username">Username: </label>
+    <input
+      id="username"
+      type="text"
+      placeholder="username"
+      formControlName="username"
+    />
+  </div>
+
+  <div class="fullname">
+    <div class="firstname">
+      <label for="fname">First name: </label>
+      <input
+        id="fname"
+        type="text"
+        placeholder="First name"
+        formControlName="fname"
+      />
+    </div>
+    <div class="lastname">
+      <label for="lname">Last name: </label>
+      <input
+        id="lname"
+        type="text"
+        placeholder="Last name"
+        formControlName="lname"
+      />
+    </div>
+  </div>
+
+  <div class="passwords">
+  
+    <label for="passwords">Passwords: </label>
+    <span>
+      <input
+        id="passwords"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="passwords"
+        formControlName="passwords"
+      />
+      <button (click)="togglePasswordVisibility()">
+        <i *ngIf="!showPassword" class="fa-regular fa-eye"></i>
+        <i *ngIf="showPassword" class="fa-regular fa-eye-slash"></i>
+      </button>
+    </span>
+
+  </div>
+
+  <div class="confirmed">
+  
+    <label for="confirmed">Confirm Passwords: </label>
+    <span>
+      <input
+        id="confirmed"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Confirm passwords"
+        formControlName="confirmed"
+      />
+      <button (click)="togglePasswordVisibility()">
+        <i *ngIf="!showPassword" class="fa-regular fa-eye"></i>
+        <i *ngIf="showPassword" class="fa-regular fa-eye-slash"></i>
+      </button>
+    </span>
+
+  </div>
+
+  <button type="submit" [disabled]="!signUpForm.valid">Sign Up</button>
+</form>
+<span>
+    Already have an account?
+<button type="submit" (click)="navigateToLogIn()">Log In</button>
+</span>

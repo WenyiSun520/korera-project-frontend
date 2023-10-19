@@ -1,26 +1,49 @@
-
-
 <div class="resourceDetailTable">
-<table class="singleDetailTable" *ngFor="let resourceDetail of resourceDetailList; let index=index">
-  <thead> 
-    <th>{{resourceDetail.name}}</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td>{{resourceDetail.description}}</td>
-    </tr>
-  </tbody>
-</table>
-<table class="addSingleDetailTable" *ngIf="toggleNewColumnInput">
-  <thead> 
-    <th><input type="text" placeholder="Resource Detail Name...">  <i class="fa-solid fa-circle-check" (click)="submitInput()"></i
-        ><i class="fa-solid fa-circle-xmark" (click)="cancelInput()" [(ngModel)]="newResourceDetailName"></i
-        ></th>
-  </thead>
-  <tbody>
-    <tr>
-      <!-- <td>{{resourceDetail.description}}</td> -->
-    </tr>
-  </tbody>
-</table>
+
+  <div *ngFor="let pair of resourceDetailMap |keyvalue">
+  <table
+    class="singleDetailTable"
+  >
+    <thead>
+      <th>{{ pair.key }}</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of $any(pair).value; let index = index ">
+        <td (dblclick)="handleOpenEditDescriptionBox()">
+          <span *ngIf="!toggleDescriptionInput">{{i.detailDescription}}</span>
+          <span *ngIf="toggleDescriptionInput">
+            <input
+              id="id_{{ i.detailID }}"
+              type="text"
+              placeholder="edit description"
+              value="{{ i.detailDescription }}"
+              [(ngModel)] = "resourceDetaildescription"
+          />
+            <i class="fa-solid fa-circle-check" (click)="submitDescriptionInput(index)"></i
+        ><i class="fa-solid fa-circle-xmark" (click)="  cancelDescriptionInput()"></i>
+        </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <table class="addSingleDetailTable" *ngIf="toggleNewColumnInput">
+    <thead>
+      <th>
+        <input
+          type="text"
+          placeholder="Resource Detail Name..."
+          [(ngModel)]="newResourceDetailName"
+        />
+        <i class="fa-solid fa-circle-check" (click)="submitInput()"></i
+        ><i class="fa-solid fa-circle-xmark" (click)="cancelInput()"></i>
+      </th>
+    </thead>
+    <tbody>
+      <tr>
+        <!-- <td>{{resourceDetail.description}}</td> -->
+      </tr>
+    </tbody>
+  </table>
 </div>

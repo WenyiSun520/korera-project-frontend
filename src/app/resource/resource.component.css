@@ -1,6 +1,7 @@
 #resource {
   margin: 20px;
   width: inherit;
+  border: 1px solid grey;
 }
 /* CSS for Resource Table Header */
 .resourceHeader {
@@ -16,20 +17,28 @@
   align-items: center;
 }
 .searchbox input {
-    margin-right:5px;
-    height:20px;
+   border-color: orange;
+  margin-right: 5px;
+  height: 20px;
+}
+.searchbox input:focus {
+  text-indent: 2px;
+  border-color: orange; /* New border color when focused */
+  background-color: lightgoldenrodyellow; /* New background color when focused */
+  outline: none;
 }
 
-.resourceHeader .fa-plus, .resourceHeader .fa-magnifying-glass {
-    background-color: orange;
-    color:white;
-    padding: 5px;
-    border-radius: 3px;
+.resourceHeader .fa-plus,
+.resourceHeader .fa-magnifying-glass {
+  background-color: orange;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
 
-    text-align: center;
+  text-align: center;
 }
 .resourceHeader .fa-plus:active {
-    background-color: rgb(216, 141, 1);
+  background-color: rgb(216, 141, 1);
 }
 
 /* CSS for editResourceTable Options List */
@@ -38,6 +47,7 @@
 }
 
 .editOptions {
+  z-index: 5;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -60,16 +70,14 @@
 .joinedTable {
   display: flex;
   flex-direction: row;
-  width:100%;
+  width: 100%;
   height: 600px;
-  border: 1px solid grey; 
 }
 
-.joinedTable app-resourcelist{
- 
-   margin:0;
+.joinedTable app-resourcelist {
+  flex: 1;
 }
 
 /* .joinedTable app-resource-detail{
-   width:100%;
+  flex:1.1
 }  */

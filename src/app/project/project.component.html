@@ -13,7 +13,8 @@
   </div>
 
    <div class="tables">
-    <app-resource-table></app-resource-table>
-    <app-project-table></app-project-table>
+    <app-resource-table (selectedResource)="addResourceToList($event)"></app-resource-table>
+    <app-project-table [resourceList]="resourceList" (submitDeletedList)="
+  removedResourceFromList($event)"></app-project-table>
    </div>
 </div>

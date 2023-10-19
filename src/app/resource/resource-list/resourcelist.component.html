@@ -1,37 +1,33 @@
-
 <table class="resourceTable">
   <thead>
     <th>Resource Code</th>
     <th>Resource Name</th>
   </thead>
   <tbody>
-    <tr *ngFor="let resource of resourceList; let index = index">
-      <td>{{ resource.id }}</td>
-      <td>{{ resource.resource_name }}</td>
+    <tr
+      class="resource-info"
+      *ngFor="let resource of resourceList; let index = index"
+    >
+      <td>{{ resource.resourceID }}</td>
+      <td>{{ resource.resourceName }}</td>
+      <div id="{{ index }}" class="resource-other-info">
+        <p>id: {{ resource.resourceID }}</p>
+        <p>name: {{ resource.resourceName }}</p>
+        <p>created_date: {{ resource.created_date | date : "shortDate" }}</p>
+        <p>
+          last_modified:
+          {{ resource.latest_modified_date | date : "shortDate" }}
+        </p>
+        <p>last_modifyed_by: {{ resource.latest_modified_by }}</p>
+      </div>
     </tr>
-    <tr>
-      <td>Marbel</td>
-      <td>000200</td>
-    </tr>
-    <tr>
-      <td>Marbel</td>
-      <td>000200</td>
-    </tr>
-    <tr>
-      <td>Marbel</td>
-      <td>000200</td>
-    </tr>
-    <tr>
-      <td>Marbel</td>
-      <td>000200</td>
-    </tr>
-    <tr *ngIf="toggleNewResourceInput">
+    <tr *ngIf="toggleNewResourceInput" [formGroup]="resourceForm">
       <td>
         <input
           class="codeinput"
-          type="text"
+          type="number"
           placeholder="Resource' code"
-          [(ngModel)]="newResourceCode"
+          formControlName="resourceID"
         />
       </td>
       <td>
@@ -41,7 +37,7 @@
           class="nameinput"
           type="text"
           placeholder="Resource's name"
-          [(ngModel)]="newResourceName"
+          formControlName="resourceName"
         />
       </td>
     </tr>

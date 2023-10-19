@@ -8,7 +8,7 @@
 }
 .singleDetailTable {
   border-collapse: collapse;
-  /* border: 1px solid grey; */
+  width:200px;
 }
 .singleDetailTable tbody {
   overflow-y: scroll;
