@@ -1,7 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { ProjectService } from '../project-service/project.service';
-import { Resource } from 'src/app/resource/resource';
-import { ResourceService } from 'src/app/resource/resource-service/resource.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-table',
@@ -17,8 +16,8 @@ export class ProjectTableComponent {
   @Output() isListUpdated = new EventEmitter<boolean>();
 
   constructor(
-    private resourceService: ResourceService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private router:Router
   ) {}
   ngOnInit(): void {
     this.resourceList = this.projectService.getSelectedResource();
@@ -39,7 +38,6 @@ export class ProjectTableComponent {
 
   deleteSelectedResource() {
     this.projectService.removeAll(this.readyToDeletedList);
-
     this.resourceList = this.projectService.getSelectedResource();
     this.isListUpdated.emit(true);
   }
@@ -62,5 +60,14 @@ export class ProjectTableComponent {
         }, 3000);
       }
     }
+  }
+
+  navigateToFormula() {
+    console.log(this.currentProject);
+    // this.router.navigate(['project-list/joined-table',this.currentProject.projectName,'formula'])
+     this.router.navigate([
+       'project-list/formula',this.currentProject.projectName
+     ]);
+
   }
 }

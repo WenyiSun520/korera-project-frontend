@@ -49,4 +49,16 @@ export class ResourceService {
     return postResourceRequest.pipe(catchError(errorHandler));
   }
 
+  getResourcesByProjectName(projectName:string){
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.getToken()!}`,
+    });
+    let getResourceByProjectNameRequest = this.http.get(
+      `${SERVER_ADDRESS}api/resource/project_name?q=${projectName}`,
+      { headers: headers}
+    );
+    return getResourceByProjectNameRequest.pipe(catchError(errorHandler));
+
+  }
+
 }

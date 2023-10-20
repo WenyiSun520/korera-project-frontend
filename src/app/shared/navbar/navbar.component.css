@@ -33,7 +33,13 @@
 }
 
 .nav-bar a {
+  color:white;
   padding: 10px;
   margin: 5px;
   height: fit-content;
+  text-decoration: none;
+}
+
+.nav-bar a:active {
+  color:orange
 }

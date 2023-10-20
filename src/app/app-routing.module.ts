@@ -5,6 +5,8 @@ import { ProjectComponent } from './project/project.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { FormulaComponent } from './formula/formula/formula.component';
+import { TemplateComponent } from './formula/template/template.component';
+import { JoinedTableComponent } from './project/joined-table.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { authGuard } from './guard/auth.guard';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
@@ -22,7 +24,24 @@ const routes: Routes = [
     path: 'project-list',
     component: ProjectComponent,
     canActivate: [authGuard],
-    children: [{ path: 'formula', component: FormulaComponent, canActivate:[authGuard]}],
+    children: [
+      {
+        path: 'joined-table/:projectName',
+        component: JoinedTableComponent,
+        canActivate: [authGuard],
+        children: [],
+      },
+      {
+        path: 'formula/:projectName',
+        component: FormulaComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'template/:projectName',
+        component: TemplateComponent,
+        canActivate: [authGuard]
+      },
+    ],
   },
   { path: '**', component: PageNotFoundComponent },
 ];

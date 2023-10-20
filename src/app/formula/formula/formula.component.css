@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+/* :host {
+  border:1px solid gray;
+} */
+
+.formulaTable {
+  border-collapse: collapse;
+  width: 100%;
+   border:1px solid gray;
+  /* border: 1px solid grey; */
+}
+.formulaTable caption{
+  background-color: darkgrey;
+}
+.formulaTable tbody {
+  overflow-y: scroll;
+}
+
+.formulaTable thead th {
+  background-color: lightgrey;
+  border: 1px solid grey;
+}
+
+.formulaTable tbody tr {
+  width: 100%;
+  height: 5px;
+}
+
+.formulaTable tbody tr td {
+  text-align: left;
+  padding: 5px;
+  height: 5px;
+}
+

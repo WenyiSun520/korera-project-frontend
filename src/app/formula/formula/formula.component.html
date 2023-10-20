@@ -1,1 +1,24 @@
-<p>formula works!</p>
+
+<table class="formulaTable">
+  <caption>
+    Quantity Survey
+  </caption>
+  <thead>
+    <th>Resource Code</th>
+    <th>Resource Name</th>
+    <th>Editable</th>
+    <th>Item_ID</th>
+  </thead>
+  <tbody>
+    <tr
+      class="formula-info"
+        *ngFor="let resource of resourceList; let index = index"
+    >
+    <td>{{ resource.resourceID }}</td>
+      <td>{{ resource.resourceName }}</td>
+    </tr>
+  </tbody>
+</table>
+<a [routerLink]="['/project-list/template',currentProjectName]">Edit Quantity Survey Template</a>
+
+

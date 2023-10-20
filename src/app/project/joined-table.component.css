@@ -1,0 +1,9 @@
+.tables{
+  width: inherit;
+  display: flex;
+  flex-direction: row;
+}
+app-resource-table, app-project-table{
+  flex-grow: 1;
+  margin:5px;
+}

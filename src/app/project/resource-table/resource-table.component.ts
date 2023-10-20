@@ -37,6 +37,9 @@ export class ResourceTableComponent {
       let result = this.selectedList.filter(
         (list: any) => !updatedList.includes(list)
       );
+      this.selectedList = this.selectedList.filter(
+        (list: any) => updatedList.includes(list)
+      );
       result.map((list: any) => {
         list.ischecked = false;
       });
@@ -63,11 +66,7 @@ export class ResourceTableComponent {
   }
 
   handleSubmittion(resource: any) {
-    // console.log('add to list');
-    // console.log(resource.ischecked);
     this.selectedList.push(resource);
-
-    // this.projectService.addResourceToList(resource);
   }
 
   handleRemove(resource: any) {
@@ -77,8 +76,8 @@ export class ResourceTableComponent {
       (item: any) => item.resourceID === resource.resourceID
     );
     this.selectedList.splice(index, 1);
-    // this.projectService.removeResourceToList(resource);
   }
+
   sendToProjec() {
     this.projectService.addAll(this.selectedList);
   }

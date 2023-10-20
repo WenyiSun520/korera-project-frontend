@@ -14,9 +14,10 @@ import { errorHandler } from 'src/app/shared/errorHandler';
   providedIn: 'root',
 })
 export class ProjectService {
-  projectList: any = [];
-  selectedResource: any = [];
+  private projectList: any = [];
+  private selectedResource: any = [];
   toggleSelectAll: boolean = false;
+  currentProject:any;
   
 
   constructor(private authService: AuthService, private http: HttpClient) {}
@@ -33,9 +34,43 @@ export class ProjectService {
       }
     );
 
+    getProjectsRequest.subscribe({
+      next: (data) => (this.projectList = data),
+      error: (error) =>
+        console.log('Error when fetching projectList: ' + error),
+      complete: () => {
+        console.log("projectList in project Service: ", this.projectList)
+      },
+    });
+
     return getProjectsRequest.pipe(catchError(errorHandler));
   }
 
+  getSingleProjectByName(name:any){
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.getToken()!}`,
+    });
+
+    let getSingleProjectRequest = this.http.get(
+      `${SERVER_ADDRESS}api/projects/${name}`,
+      {
+        headers: headers,
+      }
+    );
+
+    return getSingleProjectRequest.pipe(catchError(errorHandler));
+  }
+
+  setCurrentProject(project:any){
+    this.currentProject = project;
+  }
+  getCurrentProject(){
+    return this.currentProject;
+  }
+
+  resetSelectedResource(){
+      this.selectedResource.length = 0;
+  }
   getSelectedResource() {
     return this.selectedResource;
   }
@@ -62,6 +97,7 @@ export class ProjectService {
 
   addAll(resouce: any[]) {
     //console.log(resouce)
+    this.selectedResource.length = 0;
     this.selectedResource.push(...resouce);
   }
   removeAll(resource: any[]) {
@@ -98,6 +134,7 @@ export class ProjectService {
       )
       .subscribe({
         error: (error) => console.log(error),
+        complete:()=> this.selectedResource.length = 0
       });
   }
 }

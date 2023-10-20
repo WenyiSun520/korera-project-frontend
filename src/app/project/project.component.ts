@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from './project-service/project.service';
-import { Resource } from '../resource/resource';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-project',
@@ -10,16 +9,19 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ProjectComponent implements OnInit {
   projectList: any = [];
-  nameList: string[] = [];
+  nameList: any = [];
   isDropdownOpend: boolean = false;
   isCreatedProjectWindowOpend: boolean = false;
   currentProject: any;
   createdProjectName: string = '';
   createdProjectErr: string = '';
-  resourceList: any;
-  isListUpdated:boolean = false;
+  isListUpdated: boolean = false;
 
-  constructor(private projectService: ProjectService) {}
+  constructor(
+    private projectService: ProjectService,
+    private router: Router,
+    private activeRouter: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.projectService.getProjectList().subscribe({
@@ -30,13 +32,18 @@ export class ProjectComponent implements OnInit {
         if (this.projectList.length !== 0) {
           this.projectList.map((pro: any) =>
             this.nameList.push(pro.projectName)
-          
           );
           this.currentProject = this.projectList[0];
-          // console.log(this.currentProject)
+          this.projectService.setCurrentProject(this.currentProject);
+          this.router.navigate([
+            'project-list/joined-table',
+            this.currentProject.projectName,
+          ]);
+          // console.log(this.currentProject);
         }
-      }
+      },
     });
+    console.log('Component initialized');
   }
 
   createProject() {
@@ -60,15 +67,18 @@ export class ProjectComponent implements OnInit {
   }
 
   selectProject(name: string) {
-    this.currentProject = this.projectList.find(
-      (project: any) => project.projectName === name
-    );
-    console.log('current project', this.currentProject);
-    this.isDropdownOpend = false;
-  }
+    if (name !== this.currentProject.projectName) {
+      this.currentProject = this.projectList.find(
+        (project: any) => project.projectName === name
+      );
+     // console.log('current project', this.currentProject);
+      this.projectService.setCurrentProject(this.currentProject);
 
-  handleBooleanValue(value: boolean) {
-    console.log('Received boolean value:', value);
-    this.isListUpdated = true;
+      this.router.navigate([
+        'project-list/joined-table',
+        this.currentProject.projectName,
+      ]);
+    }
+    this.isDropdownOpend = false;
   }
 }

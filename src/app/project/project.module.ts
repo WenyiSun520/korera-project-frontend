@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ResourceTableComponent } from './resource-table/resource-table.component';
 import { ProjectTableComponent } from './project-table/project-table.component';
 import { AppRoutingModule } from '../app-routing.module';
+import { JoinedTableComponent } from './joined-table.component';
 
 
 
@@ -13,6 +14,7 @@ import { AppRoutingModule } from '../app-routing.module';
     ProjectComponent,
     ResourceTableComponent,
     ProjectTableComponent,
+    JoinedTableComponent,
   ],
   imports: [CommonModule, FormsModule,AppRoutingModule],
   exports: [ProjectComponent],

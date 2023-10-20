@@ -1,6 +1,6 @@
 <div class="projectPage">
   <div class="dropdown">
-    <p class="currentSelection">{{ nameList[0] }}</p>
+    <p class="currentSelection">{{currentProject?.projectName}}</p>
     <button class="dropbtn" (click)="toggleDropdown()" *ngIf="!isDropdownOpend">
       <i class="fa-solid fa-caret-down"></i>
     </button>
@@ -27,14 +27,6 @@
     </div>
   </div>
 
-  <div class="tables">
-    <app-resource-table
-      [isLProjectTableRemovedList]="isListUpdated"
-    ></app-resource-table>
-    <app-project-table
-      [currentProject]="currentProject"
-      (isListUpdated)="handleBooleanValue($event)"
-    ></app-project-table>
-  </div>
+  <router-outlet></router-outlet>
+  <p *ngIf="projectList.length === 0">You haven't created any project. Please create one!</p>
 </div>
-<router-outlet></router-outlet>

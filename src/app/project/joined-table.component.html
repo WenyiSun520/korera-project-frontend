@@ -1,0 +1,10 @@
+<div class="tables">
+
+    <app-resource-table
+      [isLProjectTableRemovedList]="isListUpdated"
+    ></app-resource-table>
+    <app-project-table
+      [currentProject]="currentProject"
+      (isListUpdated)="handleBooleanValue($event)"
+    ></app-project-table>
+  </div>
