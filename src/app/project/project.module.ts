@@ -4,12 +4,17 @@ import { ProjectComponent } from './project.component';
 import { FormsModule } from '@angular/forms';
 import { ResourceTableComponent } from './resource-table/resource-table.component';
 import { ProjectTableComponent } from './project-table/project-table.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 
 
 @NgModule({
-  declarations: [ProjectComponent, ResourceTableComponent, ProjectTableComponent],
-  imports: [CommonModule, FormsModule],
+  declarations: [
+    ProjectComponent,
+    ResourceTableComponent,
+    ProjectTableComponent,
+  ],
+  imports: [CommonModule, FormsModule,AppRoutingModule],
   exports: [ProjectComponent],
 })
 export class ProjectModule {}

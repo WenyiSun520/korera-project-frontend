@@ -1,57 +1,96 @@
-import { Component, Input, Output, EventEmitter, OnInit, AfterContentInit, AfterContentChecked, Renderer2 } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { ResourceDetailService } from '../resource-service/resource-detail.service';
-import { ResourceDetail } from '../resourceDetail';
 
 @Component({
   selector: 'app-resource-detail',
   templateUrl: './resource-detail.component.html',
   styleUrls: ['./resource-detail.component.css'],
 })
-export class ResourceDetailComponent implements OnInit {
-  resourceDetailMap: any;
+export class ResourceDetailComponent implements OnChanges {
+  @Input() resourceDetailMap: any = [];
+  @Input() resourceList: any = [];
   @Input() toggleNewColumnInput: boolean = false;
   @Output() closeNewColumnInput = new EventEmitter<boolean>();
   newResourceDetailName: string = '';
-  resourceDetaildescription:string = '';
-  toggleDescriptionInput:boolean = false;
+  newResourceDetailDescription: string = '';
+  selectedOption: any;
+  resourceDetaildescription: string = '';
+  toggleDescriptionInput: any;
 
-  constructor(
-    private resourceDetailService: ResourceDetailService
-  ) {}
-
-  ngOnInit(): void {
-    this.resourceDetailService
-      .getResourceDetailMap()
-      .subscribe({
-        next: (data) => (this.resourceDetailMap = data),
-        error: (err) => console.error(err),
-        complete: () => console.log('GetResourceDetailMap request is completed!'),
-      });
+  constructor(private resourceDetailService: ResourceDetailService) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['resourceDetailMap']) {
+      //console.log(changes['resourceList'].currentValue)
+      this.resourceDetailMap = changes['resourceDetailMap'].currentValue;
+    }
   }
 
-  submitInput() {
-    this.resourceDetailService.addResourceDetail(this.newResourceDetailName);
-    console.log(this.newResourceDetailName);
-    this.newResourceDetailName = '';
-    this.closeNewColumnInput.emit(false);
-  }
   cancelInput() {
     this.closeNewColumnInput.emit(false);
   }
 
-  handleOpenEditDescriptionBox() {
-    this.toggleDescriptionInput = !this.toggleDescriptionInput
-
+  handleOpenEditDescriptionBox(type: any, resourceiD: number) {
+    this.toggleDescriptionInput = type + resourceiD;
+  this.resourceDetaildescription = '';
   }
-  cancelDescriptionInput(){
-    this.toggleDescriptionInput = false;
+  cancelDescriptionInput() {
+    // console.log('cancel');
+    this.toggleDescriptionInput = '';
   }
 
-  submitDescriptionInput(index:number){
-    this.resourceDetailService.editResourceDetailDescription(
-      index,
-      this.resourceDetaildescription
-    );
-        this.toggleDescriptionInput = false;
+  addNewDetail() {
+    this.resourceDetailService
+      .addResourceDetail(
+        this.newResourceDetailName,
+        this.newResourceDetailDescription,
+        this.selectedOption
+      )
+      .subscribe({
+        // error:(err)=>console.log("error when updating detail", err),
+        complete: () => {
+          this.newResourceDetailName = '';
+          this.newResourceDetailDescription = '';
+          this.closeNewColumnInput.emit(false);
+
+        },
+      });
+  }
+
+  editDetailDescription(resourceDetail: any) {
+    if (resourceDetail.detailID === -1) {
+      console.log(resourceDetail);
+      this.resourceDetailService
+        .addResourceDetail(
+          resourceDetail.detailName,
+          this.resourceDetaildescription,
+          resourceDetail.resourceID
+        )
+        .subscribe({
+          // error:(err)=>console.log("error when updating detail", err),
+          complete: () => {
+            this.resourceDetaildescription = '';
+            this.toggleDescriptionInput = '';
+            this.cancelDescriptionInput();
+          },
+        });
+    } else {
+      // console.log(resourceDetail)
+      this.resourceDetailService
+        .editResourceDetail(resourceDetail, this.resourceDetaildescription)
+        .subscribe({
+          // error:(err)=>console.log("error when updating detail", err),
+          complete: () => console.log('successfully updated!'),
+        });
+
+      this.toggleDescriptionInput = '';
+    }
   }
 }

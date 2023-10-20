@@ -15,7 +15,7 @@ export class ResourceService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.authService.getToken()!}`,
     });
-    if (query === undefined) {
+    if (query === '') {
       let getAllResourceRequest = this.http.get(
         `${SERVER_ADDRESS}api/resource/`,{
           headers:headers
@@ -49,7 +49,4 @@ export class ResourceService {
     return postResourceRequest.pipe(catchError(errorHandler));
   }
 
-  // addDetailToResource(detail:ResourceDetail){
-  //   this.resourceList.forEach((resource)=> resource.addDetailToResource(detail));
-  // }
 }

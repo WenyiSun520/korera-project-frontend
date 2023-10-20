@@ -4,12 +4,13 @@ import { ResourceComponent } from './resource/resource.component';
 import { ProjectComponent } from './project/project.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { FormulaComponent } from './formula/formula/formula.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { authGuard } from './guard/auth.guard';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 const routes: Routes = [
-  { path: '', redirectTo:'resource-list', pathMatch:"full" },
+  { path: '', redirectTo: 'resource-list', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     path: 'project-list',
     component: ProjectComponent,
     canActivate: [authGuard],
+    children: [{ path: 'formula', component: FormulaComponent, canActivate:[authGuard]}],
   },
   { path: '**', component: PageNotFoundComponent },
 ];

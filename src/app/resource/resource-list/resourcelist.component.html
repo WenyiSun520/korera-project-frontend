@@ -7,10 +7,13 @@
     <tr
       class="resource-info"
       *ngFor="let resource of resourceList; let index = index"
+      (mouseenter)="showDetailInfo(resource.resourceID, $event)"
+      (mouseleave)="hideDetailInfo()"
+      [ngStyle]="{'position': 'relative'}"
     >
       <td>{{ resource.resourceID }}</td>
       <td>{{ resource.resourceName }}</td>
-      <div id="{{ index }}" class="resource-other-info">
+      <div id="{{ index }}" class="resource-other-info" *ngIf="isHoverIn === resource.resourceID" [ngStyle]="{'position': 'fixed', 'left.px': boxLeft, 'top.px': boxTop}">
         <p>id: {{ resource.resourceID }}</p>
         <p>name: {{ resource.resourceName }}</p>
         <p>created_date: {{ resource.created_date | date : "shortDate" }}</p>

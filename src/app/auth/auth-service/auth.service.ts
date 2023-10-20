@@ -4,16 +4,18 @@ import { catchError } from 'rxjs/operators';
 import { SERVER_ADDRESS } from 'src/app/shared/serverAddress';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { errorHandler } from 'src/app/shared/errorHandler';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private isLogginedInSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
   private token: any;
   private username: any;
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
-  authenticate(username: any, passwords: any) {
+   authenticate(username: any, passwords: any) {
     this.http
       .post(`${SERVER_ADDRESS}api/auth/authenticate`, {
         username: username,
@@ -22,18 +24,24 @@ export class AuthService {
       .subscribe({
         next: (data) => (this.token = data),
         error: (err) => {
+          console.log("Error subscribing authenticate event",err)
           catchError(errorHandler);
         },
         complete: () => {
-          if (typeof Storage !== 'undefined') {
+          if (typeof localStorage !== 'undefined' && localStorage !== null) {
             localStorage.setItem('token', this.token.token);
-            this.username = username + '';
-            console.log('authenticate(): ' + this.username);
+            // this.username = username + '';
+            this.isLogginedInSubject.next(true);
+            // console.log('authenticate(): ' + this.username);
           } else {
             console.log('localstorage is not availble');
           }
         },
       });
+  }
+
+  isLoggedIn():Observable<boolean>{
+    return this.isLogginedInSubject.asObservable();
   }
 
   signUp(obj: any) {
@@ -48,13 +56,15 @@ export class AuthService {
       .subscribe({
         next: (data) => (this.token = data),
         error: (err) => {
+           console.log('Error subscribing register event',err);
           catchError(errorHandler);
         },
         complete: () => {
-          if (typeof Storage !== 'undefined') {
+          if (typeof localStorage !== 'undefined' && localStorage !== null) {
             localStorage.setItem('token', this.token.token);
-            this.username = obj.username + '';
-            console.log('authenticate(): ' + this.username);
+            // this.username = obj.username + '';
+            // console.log('authenticate(): ' + this.username);
+            this.isLogginedInSubject.next(true);
           } else {
             console.log('localstorage is not availble');
           }
@@ -62,8 +72,11 @@ export class AuthService {
       });
   }
 
-  isAuthenticated() {
-    return !this.jwtHelper.isTokenExpired(localStorage.getItem('token'));
+  isAuthenticated():boolean {
+    return (
+      localStorage.getItem('token')!== null &&
+      !this.jwtHelper.isTokenExpired(localStorage.getItem('token'))
+    );
   }
 
   getToken() {

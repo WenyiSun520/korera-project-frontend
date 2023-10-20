@@ -43,7 +43,7 @@ export class ResourceTableComponent {
     }
   }
   ngOnInit(): void {
-    this.resourceList = this.resourceService.getResourceList().subscribe({
+    this.resourceList = this.resourceService.getResourceList('').subscribe({
       next: (data) => (this.resourceList = data),
       error: (err) => console.error(err),
       complete: () => {

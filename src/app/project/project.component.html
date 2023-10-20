@@ -1,6 +1,6 @@
 <div class="projectPage">
   <div class="dropdown">
-    <p class="currentSelection">{{nameList[0]}}</p>
+    <p class="currentSelection">{{ nameList[0] }}</p>
     <button class="dropbtn" (click)="toggleDropdown()" *ngIf="!isDropdownOpend">
       <i class="fa-solid fa-caret-down"></i>
     </button>
@@ -28,11 +28,13 @@
   </div>
 
   <div class="tables">
-    <!-- <app-resource-table (selectedResource)="addResourceToList($event)"></app-resource-table>
-    <app-project-table [resourceList]="resourceList" (submitDeletedList)="
-  removedResourceFromList($event)"></app-project-table> -->
-
-    <app-resource-table [isLProjectTableRemovedList]="isListUpdated"></app-resource-table>
-    <app-project-table [currentProject]="currentProject" (isListUpdated)="handleBooleanValue($event)"></app-project-table>
+    <app-resource-table
+      [isLProjectTableRemovedList]="isListUpdated"
+    ></app-resource-table>
+    <app-project-table
+      [currentProject]="currentProject"
+      (isListUpdated)="handleBooleanValue($event)"
+    ></app-project-table>
   </div>
 </div>
+<router-outlet></router-outlet>

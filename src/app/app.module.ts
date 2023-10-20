@@ -8,6 +8,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { ProfileComponent } from './shared/profile/profile.component';
 import { ResourceModule } from './resource/resource.module';
 import { ProjectModule } from './project/project.module';
+import { FormulaModule } from './formula/formula.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -29,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     ProjectModule,
     NoopAnimationsModule,
     AuthModule,
+    FormulaModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

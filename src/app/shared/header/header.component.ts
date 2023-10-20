@@ -20,7 +20,7 @@ export class HeaderComponent {
   toggleProfile() {
     if (this.authService.isAuthenticated()) {
     this.isProfileShowed = !this.isProfileShowed;
-    console.log(this.user)
+    //console.log(this.user)
     }
   }
 }

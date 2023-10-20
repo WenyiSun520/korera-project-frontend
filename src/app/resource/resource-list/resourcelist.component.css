@@ -42,10 +42,19 @@
 .resource-info {
   position: relative;
 }
-.resource-info:hover {
-    background-color: lightgoldenrodyellow;
+.resource-other-info {
+  z-index:2;
+  /* position: absolute; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* transform: translateX(-100%); */
+  background-color: lightgoldenrodyellow;
+  width:max-content;
+  padding:5px;
 }
-.resource-info:hover .resource-other-info {
+
+/* .resource-info:hover .resource-other-info {
   z-index:2;
   position: absolute;
   display: flex;
@@ -55,9 +64,8 @@
   background-color: lightgoldenrodyellow;
   width:max-content;
   padding:5px;
-}
-.resource-other-info {
+} */
+/* .resource-other-info {
   display: none;
-  
 
-}
+} */

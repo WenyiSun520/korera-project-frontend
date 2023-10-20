@@ -1,49 +1,66 @@
 <div class="resourceDetailTable">
-
-  <div *ngFor="let pair of resourceDetailMap |keyvalue">
-  <table
-    class="singleDetailTable"
-  >
-    <thead>
-      <th>{{ pair.key }}</th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let i of $any(pair).value; let index = index ">
-        <td (dblclick)="handleOpenEditDescriptionBox()">
-          <span *ngIf="!toggleDescriptionInput">{{i.detailDescription}}</span>
-          <span *ngIf="toggleDescriptionInput">
-            <input
-              id="id_{{ i.detailID }}"
-              type="text"
-              placeholder="edit description"
-              value="{{ i.detailDescription }}"
-              [(ngModel)] = "resourceDetaildescription"
-          />
-            <i class="fa-solid fa-circle-check" (click)="submitDescriptionInput(index)"></i
-        ><i class="fa-solid fa-circle-xmark" (click)="  cancelDescriptionInput()"></i>
-        </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngFor="let pair of resourceDetailMap | keyvalue">
+    <table class="singleDetailTable">
+      <thead>
+        <th>{{ pair.key }}</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let i of $any(pair).value; let index = index">
+          <td (dblclick)="handleOpenEditDescriptionBox(pair.key,i.resourceID)">
+            <span *ngIf="toggleDescriptionInput !== pair.key+i.resourceID">{{
+              i.detailDescription
+            }}</span>
+            <span *ngIf="toggleDescriptionInput === pair.key+i.resourceID">
+              <input
+                id="id_{{ i.detailID }}"
+                type="text"
+                placeholder="{{ i.detailDescription }}"
+                [(ngModel)]="resourceDetaildescription"
+              />
+              <i
+                class="fa-solid fa-circle-check"
+                (click)="editDetailDescription(i)"
+              ></i>
+              <i
+                class="fa-solid fa-circle-xmark"
+                (click)="cancelDescriptionInput()"
+              ></i>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <table class="addSingleDetailTable" *ngIf="toggleNewColumnInput">
     <thead>
       <th>
-        <input
-          type="text"
-          placeholder="Resource Detail Name..."
-          [(ngModel)]="newResourceDetailName"
-        />
-        <i class="fa-solid fa-circle-check" (click)="submitInput()"></i
-        ><i class="fa-solid fa-circle-xmark" (click)="cancelInput()"></i>
+        <div>
+          <input
+            id="detailName"
+            type="text"
+            placeholder="Resource Detail Name"
+            [(ngModel)]="newResourceDetailName"
+          />
+          <select  [(ngModel)]="selectedOption">
+            <option *ngFor="let resource of resourceList" value={{resource.resourceID}}>{{resource.resourceName}}</option>
+          </select>
+          <input
+            id="detailDescription"
+            type="text"
+            placeholder="Description"
+            [(ngModel)]="newResourceDetailDescription"
+          />
+          
+          <div class="submitbtn">
+            <i class="fa-solid fa-circle-check" (click)="addNewDetail()"></i>
+            <i class="fa-solid fa-circle-xmark" (click)="cancelInput()"></i>
+          </div>
+        </div>
       </th>
     </thead>
     <tbody>
-      <tr>
-        <!-- <td>{{resourceDetail.description}}</td> -->
-      </tr>
+      <tr></tr>
     </tbody>
   </table>
 </div>
