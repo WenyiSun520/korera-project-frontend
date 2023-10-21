@@ -1,0 +1,26 @@
+.fa-arrow-left{
+    margin-top:10%;
+    padding:10px;
+}
+
+.templatepage {
+
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin:10px;
+    padding:10px;
+    border:1px solid gray;
+        left: 100%;
+
+}
+app-scopefield-table,app-quantity-survey-table {
+
+    margin:20px;
+}
+
+button {
+    margin-right:10px;
+    float:right;
+}

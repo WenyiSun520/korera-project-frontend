@@ -1,21 +1,19 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'src/app/project/project-service/project.service';
 import { ResourceService } from 'src/app/resource/resource-service/resource.service';
-import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-formula',
-  templateUrl: './formula.component.html',
-  styleUrls: ['./formula.component.css'],
+  selector: 'app-scopefield-table',
+  templateUrl: './scopefield-table.component.html',
+  styleUrls: ['./scopefield-table.component.css'],
 })
-export class FormulaComponent {
+export class ScopefieldTableComponent {
   currentProject: any;
   currentProjectName: string = '';
   resourceList: any = [];
 
   constructor(
-   private location: Location,
     private activedRouter: ActivatedRoute,
     private projectService: ProjectService,
     private resourceService: ResourceService
@@ -26,7 +24,7 @@ export class FormulaComponent {
 
     this.activedRouter.params.subscribe((param) => {
       this.currentProjectName = param['projectName'];
-     // console.log('currentProjectName', this.currentProjectName);
+      console.log('currentProjectName', this.currentProjectName);
       this.resourceService
         .getResourcesByProjectName(this.currentProjectName)
         .subscribe({
@@ -38,9 +36,5 @@ export class FormulaComponent {
           complete: () => console.log('resourceList, ', this.resourceList),
         });
     });
-  }
-
-  goBack() {
-    this.location.back();
   }
 }

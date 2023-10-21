@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth-service/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -9,6 +10,8 @@ import { AuthService } from '../auth-service/auth.service';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent {
+  isLoggedIn: Observable<boolean>;
+
   submitMsg: string = '';
   showMessage: boolean = false;
   showPassword: boolean = false;
@@ -20,19 +23,35 @@ export class SignupComponent {
     confirmed: ['', Validators.required],
   });
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private authService:AuthService) {}
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {
+    this.isLoggedIn = authService.isLoggedIn();
+  }
 
   handleSubmit() {
     if (this.signUpForm.value.passwords !== this.signUpForm.value.confirmed) {
-      this.showMessage = true;
-      this.submitMsg = 'Passwords unmatched!';
-      setTimeout(() => {
-        this.showMessage = false;
-      }, 3000);
-    }else{
-      this.authService.signUp(this.signUpForm.value)
+      this.showErrorMsg("Passwords unmatch!")
+    } else {
+      this.authService.signUp(this.signUpForm.value);
+      this.isLoggedIn.subscribe((value) => {
+        if (value) {
+          this.router.navigate(['resource-list']);
+        } else {
+         this.showErrorMsg("Can't sign you up. Please try again!")
+        }
+      });
     }
-    // console.warn(this.signUpForm.value);
+  }
+  showErrorMsg(msg:string){
+    this.showMessage = true;
+    this.submitMsg = msg;
+    setTimeout(() => {
+      this.showMessage = false;
+    }, 3000);
+
   }
 
   togglePasswordVisibility() {

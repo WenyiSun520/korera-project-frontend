@@ -14,6 +14,7 @@ export class ProjectTableComponent {
   showMessage: boolean = false;
   @Input() currentProject: any;
   @Output() isListUpdated = new EventEmitter<boolean>();
+  //@Output() isResourceSubmitted = new EventEmitter<boolean>();
 
   constructor(
     private projectService: ProjectService,
@@ -52,6 +53,8 @@ export class ProjectTableComponent {
     } else {
       if (this.currentProject !== undefined) {
         this.projectService.addResourceToProject(this.currentProject);
+        this.resourceList.length = 0;
+       //this.isResourceSubmitted.emit(true)
       } else {
         this.showMessage = true;
         this.submitMsg = "You haven't selected a project!";
@@ -63,8 +66,10 @@ export class ProjectTableComponent {
   }
 
   navigateToFormula() {
-    console.log(this.currentProject);
-    // this.router.navigate(['project-list/joined-table',this.currentProject.projectName,'formula'])
+   // console.log(this.currentProject);
+   // console.log(this.projectService.getSelectedResource().length)
+
+     //this.resourceList.length = 0;
      this.router.navigate([
        'project-list/formula',this.currentProject.projectName
      ]);

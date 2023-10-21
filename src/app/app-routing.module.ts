@@ -10,6 +10,7 @@ import { JoinedTableComponent } from './project/joined-table.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { authGuard } from './guard/auth.guard';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { deactiveGuard } from './guard/deactive.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'resource-list', pathMatch: 'full' },
@@ -29,6 +30,7 @@ const routes: Routes = [
         path: 'joined-table/:projectName',
         component: JoinedTableComponent,
         canActivate: [authGuard],
+        canDeactivate: [deactiveGuard],
         children: [],
       },
       {
@@ -42,6 +44,10 @@ const routes: Routes = [
         canActivate: [authGuard]
       },
     ],
+  },{
+    path:'template',
+      component: TemplateComponent,
+        canActivate: [authGuard]
   },
   { path: '**', component: PageNotFoundComponent },
 ];

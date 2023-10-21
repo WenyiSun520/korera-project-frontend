@@ -1,12 +1,12 @@
 * {
   box-sizing: border-box;
 }
-/* :host {
-  border:1px solid gray;
-} */
-
+:host{
+  margin:10px;
+}
 .formulaTable {
   border-collapse: collapse;
+
   width: 100%;
    border:1px solid gray;
   /* border: 1px solid grey; */

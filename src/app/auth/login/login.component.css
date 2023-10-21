@@ -32,16 +32,6 @@
   outline: none;
 }
 
-button {
-     border: none;
-     cursor: pointer;
-     padding:5px;
-     font:16px;
-     border-radius: 5px;
-     background-color: orange;
-     color:black;
-}
-
 .passwords button {
   background-color: transparent;
   border: none;

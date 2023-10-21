@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from './project-service/project.service';
+import { ResourceService } from '../resource/resource-service/resource.service';
 
 @Component({
   selector: 'app-joined-table',
@@ -9,36 +10,57 @@ import { ProjectService } from './project-service/project.service';
 })
 export class JoinedTableComponent {
   isListUpdated: boolean = false;
+  isResourceSubmitted: any = this.projectService.getSelectedResource().length;
   currentProjectName: string = '';
   currentProject: any;
+  addableResourcesOfCurrentProject: any;
 
   constructor(
     private activedRouter: ActivatedRoute,
-    private projectService: ProjectService
+    public projectService: ProjectService, // make it public so i can call it in deactive.guard
+    private resourceService: ResourceService
   ) {}
 
   ngOnInit() {
-    console.log('ngonInit run');
-
+    // console.log('ngonInit run');
     this.activedRouter.params.subscribe((param) => {
       this.currentProjectName = param['projectName'];
-      console.log('currentProjectName', this.currentProjectName);
+      //console.log('currentProjectName', this.currentProjectName);
       this.projectService
         .getSingleProjectByName(this.currentProjectName)
         .subscribe({
           next: (data) => {
-            console.log('data', data);
+            // console.log('fetch currentProject', data);
             this.currentProject = data;
           },
           error: (Err) => console.log(Err),
-          complete: () => console.log('getSingleproject completed'),
+          complete: () => this.subscribeGetAddableRescorceByProjectName(),
         });
     });
-   
   }
 
-  handleBooleanValue(value: boolean) {
-    console.log('Received boolean value:', value);
-    this.isListUpdated = true;
+  subscribeGetAddableRescorceByProjectName() {
+    this.resourceService
+      .getAddableResourceByProjectName(this.currentProject.projectName)
+      .subscribe({
+        next: (data: any) => {
+          // console.log('data', data);
+          this.addableResourcesOfCurrentProject = data;
+        },
+        error: (Err: any) => console.log(Err),
+        complete: () => {
+          let formattedList: any = [];
+          this.addableResourcesOfCurrentProject.map((resource: any) => {
+            let obj = {
+              resourceID: resource.resourceID,
+              resourceName: resource.resourceName,
+              ischecked: false,
+            };
+            formattedList.push(obj);
+          });
+          this.addableResourcesOfCurrentProject = formattedList;
+          console.log('formattedList completed');
+        },
+      });
   }
 }

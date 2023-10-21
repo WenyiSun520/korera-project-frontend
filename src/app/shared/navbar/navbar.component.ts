@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth-service/auth.service';
 import { ProjectService } from 'src/app/project/project-service/project.service';
 
 @Component({
@@ -11,17 +13,18 @@ export class NavbarComponent {
   username: string = 'Jone Done';
   toggleMenu: boolean = false;
   currentProject: any;
+  isLoggedIn: Observable<boolean>;
 
   constructor(
     private projectService: ProjectService,
-    private activeRouter: ActivatedRoute
+    private activeRouter: ActivatedRoute,
+    private authService: AuthService
   ) {
-    this.currentProject = this.projectService.getCurrentProject();
-    console.log(this.currentProject);
+    this.isLoggedIn = authService.isLoggedIn();
   }
 
   ngOnInit(): void {
-    this.activeRouter.params.subscribe((param) => (console.log(param['id'])));
+    this.activeRouter.params.subscribe((param) => console.log(param['id']));
   }
 
   toggleMenuOpen() {

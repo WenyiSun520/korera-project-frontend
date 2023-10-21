@@ -16,14 +16,7 @@
 .currentSelection {
   display:inline;
 }
-.fa-solid {
-    background-color: orange;
-    color:white;
-    padding: 5px;
-    border-radius: 3px;
-    text-align: center;
-    margin:3px;
-}
+
 .dropdown-content {
   position: absolute;
   width:75%;

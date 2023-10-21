@@ -1,0 +1,52 @@
+.quantitySurveyTable {
+  border: 1px solid lightgray;
+  height: 500px;
+  width: 645px;
+  padding: 0px 10px;
+}
+
+.quantitySurveyTable .row {
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  background-color: rgb(224, 223, 223);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  height: 50px;
+}
+.field:nth-child(2) {
+  border-left: 1px solid rgb(155, 155, 155);
+  border-right: 1px solid rgb(155, 155, 155);
+}
+.field:nth-child(4) {
+  border-left: 1px solid rgb(155, 155, 155);
+}
+.field button {
+  margin: unset;
+  height: 100%;
+  float: unset;
+}
+.quantitySurveyTable .title {
+  font-weight: 700;
+  padding:10px;
+  background-color: darkgrey;
+}
+
+.quantitySurveyTable .row td {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin: 10px;
+}
+
+button {
+  margin-top: 5px;
+  float: right;
+}

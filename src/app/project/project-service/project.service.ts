@@ -39,7 +39,7 @@ export class ProjectService {
       error: (error) =>
         console.log('Error when fetching projectList: ' + error),
       complete: () => {
-        console.log("projectList in project Service: ", this.projectList)
+        console.log("getprojectsRequest in projectservice completed")
       },
     });
 

@@ -1,32 +1,43 @@
 <div class="resourceList">
-  <header class="resourceHeader">
-    <p class="headerTitle">Resource Catalog</p>
-    <div class="selectDiv">
-    <i class="fa-solid fa-list-ul" (click)="toggleSectionBox = !toggleSectionBox"></i>
-    <div class="selectAllBox" *ngIf="toggleSectionBox">
-      <span>
-        <input type="radio" id="selectAll" name="selection"(click)="selectAll()"/>
-        <label for="selectAll">Select All</label>
-      </span>
-      <span>
-        <input type="radio" id="clear" name="selection" (click)="deselectAll()"/>
-        <label for="clear">Clear Selection</label>
-      </span>
-    </div>
-    </div>
-    <i class="fa-solid fa-share"(click)="sendToProjec()"></i>
-    
-  </header>
   <table class="resourceTable">
+    <caption class="resourceHeader">
+      <p class="headerTitle">Resource Catalog</p>
+      <span class="headerBtn">
+        <i
+          class="fa-solid fa-list-ul"
+          (click)="toggleSectionBox = !toggleSectionBox"
+        ></i>
+        <div class="selectAllBox" *ngIf="toggleSectionBox">
+          <span>
+            <input
+              type="radio"
+              id="selectAll"
+              name="selection"
+              (click)="checkAll($event)"
+            />
+            <label for="selectAll">Select All</label>
+          </span>
+          <span>
+            <input
+              type="radio"
+              id="clear"
+              name="selection"
+              (click)="uncheckAll($event)"
+            />
+            <label for="clear">Clear Selection</label>
+          </span>
+        </div>
+        <i class="fa-solid fa-share" (click)="sendToProjec()"></i>
+      </span>
+    </caption>
     <thead>
       <th>Resource Code</th>
       <th>Resource Name</th>
     </thead>
-
     <tbody>
       <tr
         class="resource-info"
-        *ngFor="let resource of resourceList; let index = index"
+        *ngFor="let resource of addableResourcesOfCurrentProject; let index = index"
       >
         <td>
           <input
@@ -36,9 +47,10 @@
                 ? handleRemove(resource)
                 : handleSubmittion(resource)
             "
-            id="{{ resource.id }}"
-            value="{{ resource.id }}"
-            [(ngModel)]="resource.ischecked"
+            id="{{ resource.resourceID }}"
+            value="{{ resource.resourceID }}"
+            [checked]="resource.ischecked"
+      
           />
           {{ resource.resourceID }}
         </td>

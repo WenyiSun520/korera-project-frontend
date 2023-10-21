@@ -4,6 +4,7 @@
 
 .navbarSection {
   position: relative;
+  margin-right:20px;
 }
 .navbarSection .fa-arrow-left,
 .navbarSection .fa-arrow-right {
@@ -11,6 +12,12 @@
   background-color: black;
   padding: 10px;
   border-radius: 0 8px 8px 0;
+}
+
+.navbarSection .fa-arrow-right {
+  position: absolute;
+  margin: 0;
+    transform: translateY(20px)
 }
 
 .navbarSection .fa-arrow-left {

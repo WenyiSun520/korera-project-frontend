@@ -2,9 +2,13 @@
 
     <app-resource-table
       [isLProjectTableRemovedList]="isListUpdated"
+      [currentProject]="currentProject"
+      [addableResourcesOfCurrentProject]="addableResourcesOfCurrentProject"
     ></app-resource-table>
     <app-project-table
       [currentProject]="currentProject"
-      (isListUpdated)="handleBooleanValue($event)"
+
+      (isListUpdated)="isListUpdated = $event"
     ></app-project-table>
   </div>
+      <!-- (isResourceSubmitted) = "isResourceSubmitted = $event" -->

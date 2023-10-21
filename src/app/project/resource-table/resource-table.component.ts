@@ -8,6 +8,8 @@ import {
 import { ResourceService } from 'src/app/resource/resource-service/resource.service';
 import { Resource } from 'src/app/resource/resource';
 import { ProjectService } from '../project-service/project.service';
+import { Event } from '@angular/router';
+
 
 @Component({
   selector: 'app-resource-table',
@@ -15,10 +17,10 @@ import { ProjectService } from '../project-service/project.service';
   styleUrls: ['./resource-table.component.css'],
 })
 export class ResourceTableComponent {
-  resourceList: any;
   selectedList: any = [];
-  toggleSelectAll: boolean = false;
   toggleSectionBox: boolean = false;
+  @Input() currentProject: any;
+  @Input() addableResourcesOfCurrentProject: any;
   @Input() isLProjectTableRemovedList: boolean = false;
   @Output() selectedResource = new EventEmitter<Resource>();
 
@@ -32,41 +34,31 @@ export class ResourceTableComponent {
       changes['isLProjectTableRemovedList'] &&
       changes['isLProjectTableRemovedList'].currentValue
     ) {
-      console.log('m updatingggg');
+      // console.log('m updatingggg');
       let updatedList = this.projectService.getSelectedResource();
       let result = this.selectedList.filter(
         (list: any) => !updatedList.includes(list)
       );
-      this.selectedList = this.selectedList.filter(
-        (list: any) => updatedList.includes(list)
+      this.selectedList = this.selectedList.filter((list: any) =>
+        updatedList.includes(list)
       );
       result.map((list: any) => {
         list.ischecked = false;
       });
     }
-  }
-  ngOnInit(): void {
-    this.resourceList = this.resourceService.getResourceList('').subscribe({
-      next: (data) => (this.resourceList = data),
-      error: (err) => console.error(err),
-      complete: () => {
-        let formattedList: any = [];
-        this.resourceList.map((resource: any) => {
-          let obj = {
-            resourceID: resource.resourceID,
-            resourceName: resource.resourceName,
-            ischecked: false,
-          };
-          formattedList.push(obj);
-        });
-        this.resourceList = formattedList;
-      },
-    });
-    //  console.log(this.resourceList)
+
+    if (
+      changes['addableResourcesOfCurrentProject'] &&
+      changes['addableResourcesOfCurrentProject'].currentValue
+    ) {
+      this.addableResourcesOfCurrentProject =
+        changes['resourcesOfCurrentProject'].currentValue;
+    }
   }
 
   handleSubmittion(resource: any) {
     this.selectedList.push(resource);
+    console.log(resource.ischecked);
   }
 
   handleRemove(resource: any) {
@@ -82,13 +74,19 @@ export class ResourceTableComponent {
     this.projectService.addAll(this.selectedList);
   }
 
-  selectAll() {
-    this.toggleSelectAll = true;
-    this.resourceList.forEach((item: any) => (item.selected = true));
+  checkAll(evt: any) {
+    this.addableResourcesOfCurrentProject.forEach(
+      (c: any) => {c.ischecked = evt.target.checked}
+    );
+    this.selectedList.push(...this.addableResourcesOfCurrentProject)
+        this.toggleSectionBox = false;
   }
 
-  deselectAll() {
-    this.toggleSelectAll = false;
-    this.resourceList.forEach((item: any) => (item.selected = false));
+  uncheckAll(evt: any) {
+    this.addableResourcesOfCurrentProject.forEach(
+      (c: any) => (c.ischecked = !evt.target.checked)
+    );
+    this.selectedList.length = 0;
+    this.toggleSectionBox = false;
   }
 }

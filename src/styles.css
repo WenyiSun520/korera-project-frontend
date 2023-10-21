@@ -14,3 +14,44 @@ html, body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+input,select {
+   border-color: orange;
+  margin-right: 5px;
+  height: 20px;
+}
+input:focus, select:focus {
+  text-indent: 2px;
+  border-color: orange; /* New border color when focused */
+  background-color: lightgoldenrodyellow; /* New background color when focused */
+  outline: none;
+}
+
+button {
+     border: none;
+     cursor: pointer;
+     padding:5px;
+     font:16px;
+     border-radius: 5px;
+     background-color: orange;
+     color:black;
+}
+
+.fa-solid {
+  display: inline;
+  background-color: orange;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  text-align: center;
+  margin: 3px;
+}
+
+.fa-solid:hover,button:hover {
+    background-color: rgb(207, 145, 32);
+}
+
+.fa-solid:active, button:active{
+    background-color: rgb(185, 121, 2);
+}
+
+

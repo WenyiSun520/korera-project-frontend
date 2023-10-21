@@ -20,20 +20,16 @@ export class ResourceComponent {
     private resourceDetailService: ResourceDetailService
   ) {}
 
-
   ngOnInit(): void {
-    this.getResoureList();
-    this.getResourceDetailMap();
+    this.subscribeResoureList();
+    this.subscribeResourceDetailMap();
+  }
+  searchQuery() {
+    this.subscribeResoureList();
+    this.subscribeResourceDetailMap();
   }
 
-//  ngDoCheck() {
-//   if(this.query === ""){
-//     console.log("query is empty")
-//   }
-
-//  }
-
-  getResoureList() {
+  subscribeResoureList() {
     this.resourceList = this.resourceService
       .getResourceList(this.query)
       .subscribe({
@@ -43,7 +39,7 @@ export class ResourceComponent {
       });
   }
 
-  getResourceDetailMap() {
+  subscribeResourceDetailMap() {
     this.resourceDetailService.getResourceDetailMap(this.query).subscribe({
       next: (data: any) => {
         let formattedMap: Map<any, any[]> = new Map<any, any[]>();
@@ -64,11 +60,6 @@ export class ResourceComponent {
         console.log('GetResourceDetailMap request is completed!');
       },
     });
-  }
-
-  searchQuery() {
-    this.getResoureList();
-    this.getResourceDetailMap();
   }
 
   handleToggleOptions() {

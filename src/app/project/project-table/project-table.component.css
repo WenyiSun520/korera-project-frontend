@@ -19,14 +19,6 @@
   text-align: center;
 }
 
-.projectHeader .fa-trash-can {
-  background-color: orange;
-  color: white;
-  padding: 5px;
-  border-radius: 3px;
-  text-align: center;
-  margin: 3px;
-}
 
 .projectTable {
   width: 100%;
@@ -51,4 +43,8 @@
   text-align: left;
   padding: 5px;
   height: 5px;
+}
+
+button {
+  margin:5px;
 }

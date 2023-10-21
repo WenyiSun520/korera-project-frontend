@@ -1,64 +1,52 @@
 * {
   box-sizing: border-box;
 }
-
 .resourceList {
-  width: 100%;
-  height: 600px;
   border: 1px solid gray;
+  height: 600px;
   overflow-y: scroll;
 }
 .resourceHeader {
-  top:0;
-  position: sticky;
-  display: flex;
-  flex-direction: row;
   background-color: gray;
-  padding: 5px;
+  padding: 12px;
+}
+.headerTitle {
+  display: inline;
+}
+.resourceHeader .headerBtn {
+  float: right;
 }
 
-.resourceHeader .headerTitle {
-  flex-grow: 1;
-  text-align: center;
-}
-
-.resourceHeader .fa-solid {
-  background-color: orange;
-  color: white;
-  padding: 5px;
-  border-radius: 3px;
-  text-align: center;
-  margin: 3px;
-}
- .selectAllBox{
+.selectAllBox {
   position: absolute;
-
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   background-color: white;
   box-shadow: 1px 0 0 1px gray;
-  width:max-content;
-  transform:translate(-100%,-60%)
-}
-
-.selectAllBox span {
+  width: max-content;
+  transform: translate(-100%, -60%);
   padding: 5px;
 }
+
 .resourceTable {
   width: 100%;
   border-collapse: collapse;
-  /* border: 1px solid grey; */
+  overflow-y: scroll;
 }
-.resourceTable tbody {
+.resourceTable .resourceHeader {
   top: 0;
   position: sticky;
 }
-/* .resourceTable thead th {
-   top:0;
-  position:sticky; 
+
+/* .resourceTable thead {
+  top: 44px;
+  position: sticky;
 } */
 
 .resourceTable thead th {
+  top: 44px;
+  position: sticky;
   background-color: lightgrey;
   border: 1px solid grey;
 }
