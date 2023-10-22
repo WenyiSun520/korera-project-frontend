@@ -39,7 +39,7 @@ export class ResourceDetailComponent implements OnChanges {
 
   handleOpenEditDescriptionBox(type: any, resourceiD: number) {
     this.toggleDescriptionInput = type + resourceiD;
-  this.resourceDetaildescription = '';
+    this.resourceDetaildescription = '';
   }
   cancelDescriptionInput() {
     // console.log('cancel');

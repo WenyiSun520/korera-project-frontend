@@ -5,11 +5,11 @@
   padding: 0px 10px;
 }
 
-.quantitySurveyTable .row {
+.row {
   margin: 10px 0px;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   background-color: rgb(224, 223, 223);
 }
 
@@ -39,12 +39,12 @@
   background-color: darkgrey;
 }
 
-.quantitySurveyTable .row td {
+/* .quantitySurveyTable .row td {
   display: flex;
   flex-direction: column;
   padding: 10px;
   margin: 10px;
-}
+} */
 
 button {
   margin-top: 5px;

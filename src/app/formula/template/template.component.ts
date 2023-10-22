@@ -8,16 +8,17 @@ import { FormulaService } from '../formula-service/formula.service';
   styleUrls: ['./template.component.css'],
 })
 export class TemplateComponent {
-  constructor(private location: Location, private formularService:FormulaService) {}
-
-
+  isSubmit: boolean = false;
+  constructor(
+    private location: Location,
+    private formularService: FormulaService
+  ) {}
 
   goBack() {
     this.location.back();
   }
-
-  submitFormula(){
-    console.log(this.formularService.getFormulaList())
+  submit() {
+    this.isSubmit = true;
   }
 }
 

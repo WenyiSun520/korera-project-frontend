@@ -3,12 +3,12 @@
 }
 
 .resourceDetailTable {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 .singleDetailTable {
   border-collapse: collapse;
-  width:200px;
+  width: 200px;
 }
 .singleDetailTable tbody {
   overflow-y: scroll;
@@ -23,7 +23,7 @@
   width: 100%;
   height: 5px;
 }
-.addSingleDetailTable thead th  div{
+.addSingleDetailTable thead th div {
   display: flex;
   flex-direction: column;
 }
@@ -32,19 +32,25 @@
   display: inline;
   border: 1px solid orange;
   margin: 5px;
-  
 }
-.addSingleDetailTable thead th  div .submitbtn {
+.addSingleDetailTable thead th div .submitbtn {
   display: flex;
   flex-direction: row;
   align-self: flex-end;
 }
-    
-.fa-circle-check, .fa-circle-xmark{
-   display: inline;
-   font:16px;
-   color:orange;
-   margin:2px;
+.detailInput {
+  display: inline;
+}
+.fa-circle-check,
+.fa-circle-xmark {
+  display: inline;
+  font: 16px;
+  color: orange;
+  margin: 2px;
+  background-color: unset;
+  padding: unset;
+  border-radius: unset;
+  text-align: center;
 }
 .singleDetailTable tbody tr td {
   text-align: left;

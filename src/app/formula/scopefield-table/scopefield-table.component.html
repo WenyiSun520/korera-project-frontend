@@ -1,24 +1,16 @@
-<table class="scopeFieldTable">
-  <caption>
-    Project Scope Fields
-  </caption>
-  <tbody>
-    <tr>
-        <td>name</td>
-        <td><input type="checkbox"> </td>
-    </tr>
-     <tr>
-        <td>cost_code</td>
-        <td><input type="checkbox"> </td>
-    </tr>
-     <tr>
-        <td>Editable</td>
-        <td><input type="checkbox"> </td>
-    </tr>
-     <tr>
-        <td>item_id</td>
-        <td><input type="checkbox"> </td>
-    </tr>
-   
-  </tbody>
-</table>
+<div class="scopeFieldSection">
+  <table class="scopeFieldTable">
+    <caption>
+      Project Scope Fields
+    </caption>
+    <tbody>
+      <tr
+        *ngFor="let type of formulaTypeList; let index = index; let odd = odd"
+        [ngClass]="{ odd: odd }"
+      >
+        <td>{{ type.type }}</td>
+        <td><input id="type.type" type="checkbox"[checked]="type.ischecked" (click)="selectCheckBox(index,$event)"/></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

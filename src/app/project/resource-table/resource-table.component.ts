@@ -46,14 +46,6 @@ export class ResourceTableComponent {
         list.ischecked = false;
       });
     }
-
-    if (
-      changes['addableResourcesOfCurrentProject'] &&
-      changes['addableResourcesOfCurrentProject'].currentValue
-    ) {
-      this.addableResourcesOfCurrentProject =
-        changes['resourcesOfCurrentProject'].currentValue;
-    }
   }
 
   handleSubmittion(resource: any) {

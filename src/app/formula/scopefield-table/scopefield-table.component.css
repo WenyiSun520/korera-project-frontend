@@ -1,18 +1,20 @@
-* {
+ * {
   box-sizing: border-box;
 }
-/* :host {
-  border:1px solid gray;
-} */
-
-.scopeFieldTable {
-  /* border-collapse: collapse; */
-  border: 1px solid gray;
-  height:500px;
-  width:200px;
-  /* border: 1px solid grey; */
+.scopeFieldSection {
+   border: 1px solid lightgray;
+  height: 500px;
+  /* width: 645px; */
+  padding: 0px 10px;
 }
+.scopeFieldTable {
+  border-collapse: collapse;
+  width:200px;
+}
+
 .scopeFieldTable caption {
+  font-weight: 700;
+  padding:10px;
   background-color: darkgrey;
 }
 .scopeFieldTable tbody {
@@ -28,4 +30,8 @@
   text-align: left;
   padding: 5px;
   height: 5px;
+} 
+
+.odd {
+  background-color: lightgray;
 }

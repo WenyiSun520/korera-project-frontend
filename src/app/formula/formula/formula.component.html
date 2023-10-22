@@ -1,24 +1,49 @@
 <i class="fa-solid fa-arrow-left" (click)="goBack()">Back to Project Page</i>
-<table class="formulaTable">
-  <caption>
-    Quantity Survey
-  </caption>
-  <thead>
-    <th>Resource Code</th>
-    <th>Resource Name</th>
-    <th>Editable</th>
+<div class="surveyTable">
+  <p>Quantity Survey</p>
+  <div class="joinTable">
+    <div class="resourceTable">
+      <thead>
+        <th>Resource Code</th>
+        <th>Resource Name</th>
+      </thead>
+      <tbody>
+        <tr
+          class="formula-info"
+          *ngFor="let resource of resourceList; let index = index"
+        >
+          <td>{{ resource.resourceID }}</td>
+          <td>{{ resource.resourceName }}</td>
+        </tr>
+      </tbody>
+    </div>
 
-  </thead>
-  <tbody>
-    <tr
-      class="formula-info"
-      *ngFor="let resource of resourceList; let index = index"
+    <div
+      class="formulaTable"
+      *ngFor="let formula of formulaMap | keyvalue; let index = index"
     >
-      <td>{{ resource.resourceID }}</td>
-      <td>{{ resource.resourceName }}</td>
-    </tr>
-  </tbody>
-</table>
+      <thead>
+        <th>{{ formula.key }}</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let i of $any(formula).value; let index = index">
+          <td (dblclick)="handleOpenEditFormulaBox(i.formulaId, i.resourceId)">
+            <span *ngIf="toggleFormulsinput !== ''+i.formulaId">{{ i.fieldValue }}</span>
+            <span *ngIf="toggleFormulsinput === ''+i.formulaId">
+              <input
+                id="id_{{ i.formulaId }}"
+                type="text"
+                placeholder="{{ i.fieldValue}}"
+                [(ngModel)]= formulaValueInput
+                (keyup.enter)="submitFieldValue(i.formulaId)"
+              />
+              </span>
+          </td>
+        </tr>
+      </tbody>
+    </div>
+  </div>
+</div>
 <a [routerLink]="['/project-list/template', currentProjectName]"
   >Edit Quantity Survey Template</a
 >

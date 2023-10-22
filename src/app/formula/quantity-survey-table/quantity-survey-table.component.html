@@ -1,65 +1,37 @@
 <div class="quantitySurveyTable">
   <p class="title">Quantity Survey Fields</p>
-   <div class="Field row" *ngFor="let formula of formulaList;let index = index">
-    <div class="field">
-      <label name="field">Field</label>
-      <Input id="field" type="text" [value]="formula.field" [(ngModel)]="formula.field"/>
-    </div>
-    
-    <div class="field">
-      <label name="type">Type</label>
-      <select [(ngModel)]="formula.type">
-        <option>Select Field Type</option>
-        <option *ngFor="let type of enumType" [value]="type">
-          {{ type | lowercase }}
-        </option>
-      </select>
-    </div>
+  <div
+    class="row"
+    *ngFor="let item of formulaList.controls; let index = index"
+  >
+    <ng-container [formGroup]="item">
+      <div class="field">
+        <label name="field">Field*</label>
+        <input id="field" type="text" formControlName="field" />
+      </div>
+      <div class="field">
+        <label name="type">Type*</label>
+        <select formControlName="type">
+          <option value="">Select Field Type</option>
+          <option *ngFor="let type of enumType" value={{type}}>
+            {{ type | lowercase }}
+          </option>
+        </select>
+      </div>
+      <div class="field"   
+      [style.visibility]="
+          item.value.type === 'FORMULA' ? 'visible' : 'hidden'
+        ">
+        <label name="formula">Formula</label>
+         <input id="field" type="text" formControlName="formula" />
+      </div>
 
-    <div
-      class="field"
-      [style.visibility]="formula.type === 'FORMULA' ? 'visible' : 'hidden'"
-    >
-      <label name="formula">Formula</label>
-      <Input id="formula" type="text" [value]="formula.formula"/>
-    </div>
-  
-    <div
-      class="field"
-    >
-       <i class="fa-solid fa-trash-can" (click)="deleteFormula(index)"></i>
-    </div>
+      <div class="field">
+        <i class="fa-solid fa-trash-can" (click)="deleteFormula(index)"></i>
+      </div>
+    </ng-container>
   </div>
-
-  <!-- <div class="addField row">
-    <div class="field">
-      <label name="field">Field</label>
-      <Input id="field" type="text" />
-    </div>
-    <div class="field">
-      <label name="type">Type</label>
-      <select [(ngModel)]="selectOption">
-        <option>Select Field Type</option>
-        <option *ngFor="let type of enumType" [value]="type">
-          {{ type | lowercase }}
-        </option>
-      </select>
-    </div>
-
-    <div
-      class="field"
-      [style.visibility]="selectOption === 'FORMULA' ? 'visible' : 'hidden'"
-    >
-      <label name="formula">Formula</label>
-      <Input id="formula" type="text" />
-    </div>
-  
-    <div
-      class="field"
-    >
-       <i class="fa-solid fa-trash-can"></i>
-    </div>
-  </div> -->
 </div>
 
 <button (click)="addFormula()">Add Field</button>
+

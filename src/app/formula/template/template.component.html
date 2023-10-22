@@ -1,6 +1,6 @@
 <i class="fa-solid fa-arrow-left" (click)="goBack()">Back to Project Page</i>
 <div class="templatepage">
-  <app-scopefield-table></app-scopefield-table>
-  <app-quantity-survey-table></app-quantity-survey-table>
+  <app-scopefield-table [isSubmit]="isSubmit"></app-scopefield-table>
+  <app-quantity-survey-table [isSubmit]="isSubmit"></app-quantity-survey-table>
 </div>
-<button type="submit" (click)="submitFormula()">Save</button>
+<button type="submit" (click)="submit()">Save</button>

@@ -12,6 +12,7 @@
             }}</span>
             <span *ngIf="toggleDescriptionInput === pair.key+i.resourceID">
               <input
+                class="detailInput"
                 id="id_{{ i.detailID }}"
                 type="text"
                 placeholder="{{ i.detailDescription }}"

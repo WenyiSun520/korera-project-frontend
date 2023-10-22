@@ -34,14 +34,18 @@ export class JoinedTableComponent {
             this.currentProject = data;
           },
           error: (Err) => console.log(Err),
-          complete: () => this.subscribeGetAddableRescorceByProjectName(),
+          complete: () =>
+            this.subscribeGetAddableRescorceByProjectName(
+              this.currentProjectName
+            ),
         });
     });
   }
 
-  subscribeGetAddableRescorceByProjectName() {
+  subscribeGetAddableRescorceByProjectName(projectName:string) {
+    console.log(projectName)
     this.resourceService
-      .getAddableResourceByProjectName(this.currentProject.projectName)
+      .getAddableResourceByProjectName(projectName)
       .subscribe({
         next: (data: any) => {
           // console.log('data', data);
@@ -60,7 +64,7 @@ export class JoinedTableComponent {
           });
           this.addableResourcesOfCurrentProject = formattedList;
           console.log('formattedList completed');
-        },
+        }
       });
   }
 }

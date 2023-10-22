@@ -71,7 +71,7 @@ export class ProjectComponent implements OnInit {
       this.currentProject = this.projectList.find(
         (project: any) => project.projectName === name
       );
-     // console.log('current project', this.currentProject);
+      console.log('current project', this.currentProject);
       this.projectService.setCurrentProject(this.currentProject);
 
       this.router.navigate([

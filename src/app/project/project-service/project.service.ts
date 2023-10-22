@@ -14,7 +14,7 @@ import { errorHandler } from 'src/app/shared/errorHandler';
   providedIn: 'root',
 })
 export class ProjectService {
-  private projectList: any = [];
+  
   private selectedResource: any = [];
   toggleSelectAll: boolean = false;
   currentProject:any;
@@ -34,14 +34,7 @@ export class ProjectService {
       }
     );
 
-    getProjectsRequest.subscribe({
-      next: (data) => (this.projectList = data),
-      error: (error) =>
-        console.log('Error when fetching projectList: ' + error),
-      complete: () => {
-        console.log("getprojectsRequest in projectservice completed")
-      },
-    });
+   
 
     return getProjectsRequest.pipe(catchError(errorHandler));
   }
