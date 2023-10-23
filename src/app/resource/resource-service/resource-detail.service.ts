@@ -13,25 +13,16 @@ import { errorHandler } from 'src/app/shared/errorHandler';
 export class ResourceDetailService {
   constructor(private authService: AuthService, private http: HttpClient) {}
 
-  getResourceDetailMap(query?:any) {
-    
+  getResourceDetailMap(query?: any) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.authService.getToken()!}`,
     });
-     if (query === '') {
+
     let getResourceDetailRequest = this.http.get(
-      `${SERVER_ADDRESS}api/resource_detail/`,
+      `${SERVER_ADDRESS}api/resource_detail/search_by_name?q=${query}`,
       { headers: headers }
     );
     return getResourceDetailRequest.pipe(catchError(errorHandler));
-     }else{
-        let getResourceDetailRequest = this.http.get(
-          `${SERVER_ADDRESS}api/resource_detail/search_by_name?q=${query}`,
-          { headers: headers }
-        );
-        return getResourceDetailRequest.pipe(catchError(errorHandler));
-
-     }
   }
 
   addResourceDetail(name: string, description: string, resourceId: any) {

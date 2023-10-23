@@ -2,6 +2,7 @@ import { Component, Input, OnInit,Output,EventEmitter, OnChanges, SimpleChanges,
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResourceService } from '../resource-service/resource.service';
 import { Resource } from '../resource';
+import { AuthService } from 'src/app/auth/auth-service/auth.service';
 
 @Component({
   selector: 'app-resourcelist',
@@ -10,21 +11,22 @@ import { Resource } from '../resource';
 })
 export class ResourcelistComponent implements OnChanges {
   @Input() resourceList: any = [];
+  @Output() notifyListUpdated = new EventEmitter<boolean>();
   isHoverIn: string = '';
   boxLeft = 0;
   boxTop = 0;
   resourceForm = new FormGroup({
     resourceID: new FormControl(''),
-    resourceName: new FormControl(''),
+    resourceName: new FormControl('')
   });
 
   @Input() toggleNewResourceInput: boolean = false;
   @Output() closeNewResourceInput = new EventEmitter<boolean>();
 
-  constructor(private resourceService: ResourceService) {}
+  constructor(private resourceService: ResourceService, private authService:AuthService) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['resourceList']) {
-      //console.log(changes['resourceList'].currentValue)
+     // console.log(changes['resourceList'].currentValue);
       this.resourceList = changes['resourceList'].currentValue;
     }
   }
@@ -43,11 +45,8 @@ export class ResourcelistComponent implements OnChanges {
           next: (data) => console.log(data),
           error: (err) => console.error(err),
           complete: () => {
-            this.resourceList.push({
-              resourceID: resourceID,
-              resourceName: this.resourceForm.value.resourceName!,
-            });
-            console.log('The request is completed!', this.resourceList);
+            this.notifyListUpdated.emit(true)
+          //  console.log('The request is completed!', this.resourceList);
           },
         });
 
@@ -61,8 +60,7 @@ export class ResourcelistComponent implements OnChanges {
   }
 
   showDetailInfo(id: any, event: MouseEvent) {
-  
-    this.boxLeft = event.clientX
+    this.boxLeft = event.clientX;
     this.boxTop = event.clientY;
     this.isHoverIn = id;
   }

@@ -6,6 +6,9 @@ import { ResourceComponent } from './resource.component';
 import { ResourceDetailComponent } from './resource-detail/resource-detail.component';
 import { ResourceService } from './resource-service/resource.service';
 import { ResourceDetailService } from './resource-service/resource-detail.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -13,7 +16,14 @@ import { ResourceDetailService } from './resource-service/resource-detail.servic
     ResourceComponent,
     ResourceDetailComponent,
   ],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule,
+  ],
   exports: [ResourcelistComponent, ResourceComponent],
   providers: [ResourceService, ResourceDetailService],
 })

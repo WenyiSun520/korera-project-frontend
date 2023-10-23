@@ -1,7 +1,14 @@
 <div id="resource">
   <header class="resourceHeader">
     <div class="searchbox">
-      <input type="text" placeholder="keywords" size="15" [(ngModel)]="query" />
+      <input
+        type="text"
+        placeholder="keywords"
+        size="15"
+        [(ngModel)]="query"
+        (keyup.enter)="searchQuery()"
+        (input)="autoFetchAll($event)"
+      />
       <i class="fa-solid fa-magnifying-glass" (click)="searchQuery()"></i>
     </div>
     <p class="headerTitle">Resource Catalog</p>
@@ -25,9 +32,10 @@
       [resourceList]="resourceList"
       [toggleNewResourceInput]="toggleNewResourceInput"
       (closeNewResourceInput)="closeNewResourceInput($event)"
+      (notifyListUpdated)="reloadResourceList($event)"
     ></app-resourcelist>
     <app-resource-detail
-     [resourceList]="resourceList"
+      [resourceList]="resourceList"
       [resourceDetailMap]="resourceDetailMap"
       [toggleNewColumnInput]="toggleNewColumnInput"
       (closeNewColumnInput)="closeNewColumnInput($event)"

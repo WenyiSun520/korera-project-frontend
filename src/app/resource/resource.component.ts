@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { ResourceService } from './resource-service/resource.service';
 import { ResourceDetailService } from './resource-service/resource-detail.service';
 
@@ -14,6 +14,7 @@ export class ResourceComponent {
   toggleNewResourceInput: boolean = false;
   toggleNewColumnInput: boolean = false;
   query: string = '';
+  options: any = [];
 
   constructor(
     private resourceService: ResourceService,
@@ -26,7 +27,17 @@ export class ResourceComponent {
   }
   searchQuery() {
     this.subscribeResoureList();
-   // this.subscribeResourceDetailMap();
+    // this.subscribeResourceDetailMap();
+  }
+
+  autoFetchAll(event?: Event) {
+    if (event) {
+      const inputElement = event.target as HTMLInputElement;
+      const value = inputElement.value;
+      if (value === '') {
+            this.subscribeResoureList();
+      }
+    }
   }
 
   subscribeResoureList() {
@@ -36,19 +47,14 @@ export class ResourceComponent {
         next: (data) => (this.resourceList = data),
         error: (err) => console.error(err),
         complete: () => {
-          this.resourceList.sort((a: any, b: any) => a.resourceID - b.resourceID)
-        //  console.log(this.resourceList)
-          this.subscribeResourceDetailMap()
+          this.resourceList.sort(
+            (a: any, b: any) => a.resourceID - b.resourceID
+          );
+          //console.log(this.resourceList)
+          this.subscribeResourceDetailMap();
         },
       });
   }
-//  for(Long id:resourcesIdList){
-//                 if(!checkedList.contains(id)){
-//                    Resource resource = this.resourceRepository.getResourceByResourceID(id);
-//                     ResourceDetailDTO empty = new ResourceDetailDTO(-1,type,"n/a",null,null,null,id,resource.getResourceName());
-//                     list.add(empty);
-//                 }
-//            }
   subscribeResourceDetailMap() {
     this.resourceDetailService.getResourceDetailMap(this.query).subscribe({
       next: (data: any) => {
@@ -56,21 +62,25 @@ export class ResourceComponent {
         for (const key in data) {
           if (data.hasOwnProperty(key)) {
             const list: any[] = data[key];
-            this.resourceList.map((item:any)=>{
-                if(!list.find((resource:any)=> resource.resourceID === item.resourceID)){
-                   let obj = {
-                     detailID: -1,
-                     detailName: key,
-                     detailDescription: 'n/a',
-                     created_date: '',
-                     latest_modified_by: 'null',
-                     latest_updated: '',
-                     resourceID: item.resourceID,
-                     resourceName: item.resourceName,
-                   };
-                   list.push(obj);
-                }
-            })
+            this.resourceList.map((item: any) => {
+              if (
+                !list.find(
+                  (resource: any) => resource.resourceID === item.resourceID
+                )
+              ) {
+                let obj = {
+                  detailID: -1,
+                  detailName: key,
+                  detailDescription: 'n/a',
+                  created_date: '',
+                  latest_modified_by: 'null',
+                  latest_updated: '',
+                  resourceID: item.resourceID,
+                  resourceName: item.resourceName,
+                };
+                list.push(obj);
+              }
+            });
             formattedMap.set(
               key,
               list.slice().sort((a: any, b: any) => a.resourceID - b.resourceID)
@@ -81,7 +91,7 @@ export class ResourceComponent {
       },
       error: (err) => console.error(err),
       complete: () => {
-        // console.log(this.resourceList);
+       // console.log(this.resourceDetailMap);
         console.log('GetResourceDetailMap request is completed!');
       },
     });
@@ -106,5 +116,11 @@ export class ResourceComponent {
 
   closeNewColumnInput(isClosed: boolean) {
     this.toggleNewColumnInput = isClosed;
+  }
+
+  reloadResourceList(isUpdated: boolean) {
+    if (isUpdated === true) {
+      this.ngOnInit();
+    }
   }
 }

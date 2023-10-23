@@ -15,14 +15,6 @@ export class ResourceService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.authService.getToken()!}`,
     });
-    if (query === '') {
-      let getAllResourceRequest = this.http.get(
-        `${SERVER_ADDRESS}api/resource/`,{
-          headers:headers
-        }
-      );
-      return getAllResourceRequest.pipe(catchError(errorHandler));
-    } 
     let getFilteredResourceRequest = this.http.get(
       `${SERVER_ADDRESS}api/resource/resource_name?q=${query}`,
       {
