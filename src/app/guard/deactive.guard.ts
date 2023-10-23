@@ -1,6 +1,4 @@
 import { CanDeactivateFn } from '@angular/router';
-import { ProjectComponent } from '../project/project.component';
-import { ProjectTableComponent } from '../project/project-table/project-table.component';
 import { JoinedTableComponent } from '../project/joined-table.component';
 
 export const deactiveGuard: CanDeactivateFn<JoinedTableComponent> = (

@@ -19,6 +19,8 @@ export class TemplateComponent {
   }
   submit() {
     this.isSubmit = true;
+   this.goBack();
+  
   }
 }
 

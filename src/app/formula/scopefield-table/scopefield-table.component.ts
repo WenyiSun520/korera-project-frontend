@@ -23,8 +23,9 @@ export class ScopefieldTableComponent {
       // if (this.formulaList.isValid) {
       // console.log("it's time to submit scope type check");
       let selectedType = this.formulaTypeList.filter((type:any)=>type.ischecked === true).map((type:any)=> type.type)
+
    this.formulaService.addFilterType(selectedType)
-      console.log('selectedType: ', selectedType);
+      // console.log('selectedType: ', selectedType);
       // } else {
       //   alert('You have unfinished formula input');
       // }
@@ -65,7 +66,9 @@ export class ScopefieldTableComponent {
     }
   }
    selectCheckBox(index:number, event:any){
-       this.formulaTypeList[index].ischecked = event.target.checked;
+     console.log(event.target.checked);
+      this.formulaTypeList[index].ischecked =  event.target.checked
+     //    !this.formulaTypeList[index].ischecked;
    }
 
 

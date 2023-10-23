@@ -119,7 +119,7 @@ export class FormulaService {
     });
   }
   addFilterType(list:any){
-  
+    this.filteredType.length = 0;
     this.filteredType.push(...list)
       console.log(this.filteredType);
 
@@ -129,7 +129,6 @@ export class FormulaService {
      const headers = new HttpHeaders({
        Authorization: `Bearer ${this.authService.getToken()!}`,
      });
-
     this.http.put(`${SERVER_ADDRESS}api/formula/update-value/${formulaId}/${value}`, {
        headers: headers,
      })

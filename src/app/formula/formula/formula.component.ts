@@ -12,11 +12,11 @@ import { FormulaService } from '../formula-service/formula.service';
 })
 export class FormulaComponent {
   toggleFormulsinput: string = '';
-  formulaValueInput:string = '';
+  formulaValueInput: string = '';
   currentProject: any;
   currentProjectName: string = '';
   resourceList: any = [];
-  formulaMap: any = [];
+  formulaMap: Map<string, any> = new Map<string, any>();
 
   constructor(
     private location: Location,
@@ -36,6 +36,11 @@ export class FormulaComponent {
             this.resourceList = data;
           },
           error: (Err) => console.log(Err),
+          complete: () => {
+            this.resourceList.sort(function (a: any, b: any) {
+              return a.resourceID - b.resourceID;
+            });
+          },
         });
 
       this.formulaService
@@ -43,30 +48,39 @@ export class FormulaComponent {
         .subscribe({
           next: (data) => {
             this.formulaMap = data;
+            console.log(data);
           },
           error: (Err) => console.log(Err),
-          complete: () => console.log(this.formulaMap),
         });
     });
   }
-  handleOpenEditFormulaBox(formulaId: number, resourceID:number) {
-    this.toggleFormulsinput = ""+formulaId;
+  handleOpenEditFormulaBox(formulaId: number, resourceID: number) {
+    this.toggleFormulsinput = '' + formulaId;
     // this.toggleFormulsinput = '';
     console.log(resourceID);
-    console.log(this.toggleFormulsinput == ""+formulaId);
+    console.log(this.toggleFormulsinput == '' + formulaId);
   }
   cancelFormulaInput() {
     // console.log('cancel');
     this.toggleFormulsinput = '';
   }
-  submitFieldValue(formulaId:number){
-    if(this.formulaValueInput !== ""){
-    this.formulaService.updateFieldValue(formulaId, this.formulaValueInput);
+  submitFieldValue(formulaId: number, formula: any) {
+    if (this.formulaValueInput !== '' && formulaId !== -1) {
+      this.formulaService.updateFieldValue(formulaId, this.formulaValueInput);
     }
-    this.toggleFormulsinput = '';
+    if (this.formulaValueInput !== '' && formulaId === -1) {
+      this.formulaService.addFormulaToList(formula)
+    }
 
+    this.toggleFormulsinput = '';
   }
   goBack() {
     this.location.back();
+  }
+  sortByResourceId(list: any) {
+    list.sort(function (a: any, b: any) {
+      return a.resourceId - b.resourceId;
+    });
+    return list;
   }
 }

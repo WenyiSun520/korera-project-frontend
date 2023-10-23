@@ -2,7 +2,7 @@
 <div class="surveyTable">
   <p>Quantity Survey</p>
   <div class="joinTable">
-    <div class="resourceTable">
+    <table class="resourceTable">
       <thead>
         <th>Resource Code</th>
         <th>Resource Name</th>
@@ -16,9 +16,10 @@
           <td>{{ resource.resourceName }}</td>
         </tr>
       </tbody>
-    </div>
+    </table>
 
-    <div
+
+    <table
       class="formulaTable"
       *ngFor="let formula of formulaMap | keyvalue; let index = index"
     >
@@ -26,22 +27,22 @@
         <th>{{ formula.key }}</th>
       </thead>
       <tbody>
-        <tr *ngFor="let i of $any(formula).value; let index = index">
+        <tr class="formularow" *ngFor="let i of sortByResourceId($any(formula).value); let index = index">
           <td (dblclick)="handleOpenEditFormulaBox(i.formulaId, i.resourceId)">
             <span *ngIf="toggleFormulsinput !== ''+i.formulaId">{{ i.fieldValue }}</span>
             <span *ngIf="toggleFormulsinput === ''+i.formulaId">
               <input
-                id="id_{{ i.formulaId }}"
+                id="input id_{{ i.formulaId }}"
                 type="text"
                 placeholder="{{ i.fieldValue}}"
                 [(ngModel)]= formulaValueInput
-                (keyup.enter)="submitFieldValue(i.formulaId)"
+                (keyup.enter)="submitFieldValue(i.formulaId, i)"
               />
               </span>
           </td>
         </tr>
       </tbody>
-    </div>
+    </table>
   </div>
 </div>
 <a [routerLink]="['/project-list/template', currentProjectName]"
