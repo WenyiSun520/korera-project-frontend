@@ -5,16 +5,19 @@
 .resourceDetailTable {
   display: flex;
   flex-direction: row;
+  border-collapse: collapse;
+  overflow-y: scroll;
 }
 .singleDetailTable {
   border-collapse: collapse;
   width: 200px;
+
 }
 .singleDetailTable tbody {
   overflow-y: scroll;
 }
-
 .singleDetailTable thead th {
+
   background-color: lightgrey;
   border: 1px solid grey;
 }

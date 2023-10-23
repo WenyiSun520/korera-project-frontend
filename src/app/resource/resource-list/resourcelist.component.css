@@ -7,9 +7,10 @@
   width: 100%;
   /* border: 1px solid grey; */
 }
-.resourceTable tbody {
+/* .resourceTable tbody {
+  height: 600px;
   overflow-y: scroll;
-}
+} */
 
 .resourceTable thead th {
   background-color: lightgrey;
@@ -30,7 +31,7 @@
 .fa-circle-check,
 .fa-circle-xmark {
   font: 16px;
-  color: orange;
+  color: white;
   display: inline;
   margin: 2px;
 }
@@ -43,15 +44,15 @@
   position: relative;
 }
 .resource-other-info {
-  z-index:2;
+  z-index: 2;
   /* position: absolute; */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   /* transform: translateX(-100%); */
   background-color: lightgoldenrodyellow;
-  width:max-content;
-  padding:5px;
+  width: max-content;
+  padding: 5px;
 }
 
 /* .resource-info:hover .resource-other-info {

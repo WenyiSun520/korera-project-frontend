@@ -6,6 +6,8 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  SimpleChange,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ResourceDetailService } from '../resource-service/resource-detail.service';
 
@@ -25,11 +27,19 @@ export class ResourceDetailComponent implements OnChanges {
   resourceDetaildescription: string = '';
   toggleDescriptionInput: any;
 
-  constructor(private resourceDetailService: ResourceDetailService) {}
+  constructor(
+    private resourceDetailService: ResourceDetailService,
+    private cdr: ChangeDetectorRef
+  ) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['resourceDetailMap']) {
       //console.log(changes['resourceList'].currentValue)
       this.resourceDetailMap = changes['resourceDetailMap'].currentValue;
+    //  console.log(changes['resourceDetailMap'].currentValue);
+    }
+    if (changes['resourceList']) {
+      this.resourceList = changes['resourceList'].currentValue;
+      // console.log(changes['resourceList'].currentValue);
     }
   }
 
@@ -56,15 +66,50 @@ export class ResourceDetailComponent implements OnChanges {
       .subscribe({
         // error:(err)=>console.log("error when updating detail", err),
         complete: () => {
+          let obj = {
+            created_date: new Date(),
+            detailDescription: this.newResourceDetailDescription,
+            detailID: 0,
+            detailName: this.newResourceDetailName,
+            latest_modified_by: 'null',
+            latest_updated: new Date(),
+            resourceID: this.selectedOption,
+            resourceName: this.selectedOption,
+          };
+          let list: any[] = [obj];
+
+          this.resourceList.map((item: any) => {
+            if (
+              !list.find(
+                (resource: any) => resource.resourceID === item.resourceID
+              )
+            ) {
+              let obj = {
+                detailID: -1,
+                detailName: this.newResourceDetailName,
+                detailDescription: 'n/a',
+                created_date: '',
+                latest_modified_by: 'null',
+                latest_updated: '',
+                resourceID: item.resourceID,
+                resourceName: item.resourceName,
+              };
+              list.push(obj);
+            }
+          });
+          this.resourceDetailMap.set(
+            this.newResourceDetailName,
+            list.slice().sort((a: any, b: any) => a.resourceID - b.resourceID)
+          );
+
           this.newResourceDetailName = '';
           this.newResourceDetailDescription = '';
           this.closeNewColumnInput.emit(false);
-
         },
       });
   }
 
-  editDetailDescription(resourceDetail: any) {
+  editDetailDescription(resourceDetail: any, index: any) {
     if (resourceDetail.detailID === -1) {
       console.log(resourceDetail);
       this.resourceDetailService
@@ -76,6 +121,10 @@ export class ResourceDetailComponent implements OnChanges {
         .subscribe({
           // error:(err)=>console.log("error when updating detail", err),
           complete: () => {
+            // let detailList =  this.resourceDetailMap.get(resourceDetail.detailName)
+            this.resourceDetailMap.get(resourceDetail.detailName)[
+              index
+            ].detailDescription = this.resourceDetaildescription;
             this.resourceDetaildescription = '';
             this.toggleDescriptionInput = '';
             this.cancelDescriptionInput();
@@ -86,8 +135,16 @@ export class ResourceDetailComponent implements OnChanges {
       this.resourceDetailService
         .editResourceDetail(resourceDetail, this.resourceDetaildescription)
         .subscribe({
+          // next: (data) => (this.resourceDetailMap = data),
           // error:(err)=>console.log("error when updating detail", err),
-          complete: () => console.log('successfully updated!'),
+          complete: () => {
+            this.resourceDetailMap.get(resourceDetail.detailName)[
+              index
+            ].detailDescription = this.resourceDetaildescription;
+
+            // console.log(this.resourceDetailMap);
+            console.log('successfully updated!');
+          },
         });
 
       this.toggleDescriptionInput = '';

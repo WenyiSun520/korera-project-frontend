@@ -22,11 +22,11 @@ export class ResourceComponent {
 
   ngOnInit(): void {
     this.subscribeResoureList();
-    this.subscribeResourceDetailMap();
+    // this.subscribeResourceDetailMap();
   }
   searchQuery() {
     this.subscribeResoureList();
-    this.subscribeResourceDetailMap();
+   // this.subscribeResourceDetailMap();
   }
 
   subscribeResoureList() {
@@ -35,10 +35,20 @@ export class ResourceComponent {
       .subscribe({
         next: (data) => (this.resourceList = data),
         error: (err) => console.error(err),
-        complete: () => console.log('The request is completed!'),
+        complete: () => {
+          this.resourceList.sort((a: any, b: any) => a.resourceID - b.resourceID)
+        //  console.log(this.resourceList)
+          this.subscribeResourceDetailMap()
+        },
       });
   }
-
+//  for(Long id:resourcesIdList){
+//                 if(!checkedList.contains(id)){
+//                    Resource resource = this.resourceRepository.getResourceByResourceID(id);
+//                     ResourceDetailDTO empty = new ResourceDetailDTO(-1,type,"n/a",null,null,null,id,resource.getResourceName());
+//                     list.add(empty);
+//                 }
+//            }
   subscribeResourceDetailMap() {
     this.resourceDetailService.getResourceDetailMap(this.query).subscribe({
       next: (data: any) => {
@@ -46,6 +56,21 @@ export class ResourceComponent {
         for (const key in data) {
           if (data.hasOwnProperty(key)) {
             const list: any[] = data[key];
+            this.resourceList.map((item:any)=>{
+                if(!list.find((resource:any)=> resource.resourceID === item.resourceID)){
+                   let obj = {
+                     detailID: -1,
+                     detailName: key,
+                     detailDescription: 'n/a',
+                     created_date: '',
+                     latest_modified_by: 'null',
+                     latest_updated: '',
+                     resourceID: item.resourceID,
+                     resourceName: item.resourceName,
+                   };
+                   list.push(obj);
+                }
+            })
             formattedMap.set(
               key,
               list.slice().sort((a: any, b: any) => a.resourceID - b.resourceID)

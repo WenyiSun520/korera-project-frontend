@@ -4,6 +4,26 @@
     <th>Resource Name</th>
   </thead>
   <tbody>
+     <tr *ngIf="toggleNewResourceInput" [formGroup]="resourceForm">
+      <td>
+        <input
+          class="codeinput"
+          type="number"
+          placeholder="Resource' code"
+          formControlName="resourceID"
+        />
+      </td>
+      <td>
+        <i class="fa-solid fa-circle-check" (click)="submitInput()"></i
+        ><i class="fa-solid fa-circle-xmark" (click)="cancelInput()"></i
+        ><input
+          class="nameinput"
+          type="text"
+          placeholder="Resource's name"
+          formControlName="resourceName"
+        />
+      </td>
+    </tr>
     <tr
       class="resource-info"
       *ngFor="let resource of resourceList; let index = index"
@@ -23,26 +43,6 @@
         </p>
         <p>last_modifyed_by: {{ resource.latest_modified_by }}</p>
       </div>
-    </tr>
-    <tr *ngIf="toggleNewResourceInput" [formGroup]="resourceForm">
-      <td>
-        <input
-          class="codeinput"
-          type="number"
-          placeholder="Resource' code"
-          formControlName="resourceID"
-        />
-      </td>
-      <td>
-        <i class="fa-solid fa-circle-check" (click)="submitInput()"></i
-        ><i class="fa-solid fa-circle-xmark" (click)="cancelInput()"></i
-        ><input
-          class="nameinput"
-          type="text"
-          placeholder="Resource's name"
-          formControlName="resourceName"
-        />
-      </td>
     </tr>
   </tbody>
 </table>

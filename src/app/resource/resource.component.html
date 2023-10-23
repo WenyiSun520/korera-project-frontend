@@ -27,6 +27,7 @@
       (closeNewResourceInput)="closeNewResourceInput($event)"
     ></app-resourcelist>
     <app-resource-detail
+     [resourceList]="resourceList"
       [resourceDetailMap]="resourceDetailMap"
       [toggleNewColumnInput]="toggleNewColumnInput"
       (closeNewColumnInput)="closeNewColumnInput($event)"
