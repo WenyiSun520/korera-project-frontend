@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ResourceService } from './resource-service/resource.service';
 import { ResourceDetailService } from './resource-service/resource-detail.service';
+import { FormControl } from '@angular/forms';
+import { Observable, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-resource',
@@ -13,8 +15,11 @@ export class ResourceComponent {
   toggleOptions: boolean = false;
   toggleNewResourceInput: boolean = false;
   toggleNewColumnInput: boolean = false;
-  query: string = '';
-  options: any = [];
+  // query: string = '';
+
+  query = new FormControl('');
+  options: string[] = ['stone', 'gem'];
+  filteredOptions: Observable<string[]> = new Observable<string[]>();
 
   constructor(
     private resourceService: ResourceService,
@@ -23,10 +28,23 @@ export class ResourceComponent {
 
   ngOnInit(): void {
     this.subscribeResoureList();
+    this.filteredOptions = this.query.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value || ''))
+    );
+    console.log(this.options);
     // this.subscribeResourceDetailMap();
+  }
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
   searchQuery() {
     this.subscribeResoureList();
+
     // this.subscribeResourceDetailMap();
   }
 
@@ -35,28 +53,33 @@ export class ResourceComponent {
       const inputElement = event.target as HTMLInputElement;
       const value = inputElement.value;
       if (value === '') {
-            this.subscribeResoureList();
+        this.subscribeResoureList();
       }
     }
   }
 
   subscribeResoureList() {
-    this.resourceList = this.resourceService
-      .getResourceList(this.query)
-      .subscribe({
-        next: (data) => (this.resourceList = data),
-        error: (err) => console.error(err),
-        complete: () => {
-          this.resourceList.sort(
-            (a: any, b: any) => a.resourceID - b.resourceID
-          );
-          //console.log(this.resourceList)
-          this.subscribeResourceDetailMap();
-        },
-      });
+    let query: any;
+    if (this.query.value !== undefined) {
+      query = this.query.value;
+      this.addSearchQuery();
+    }
+    this.resourceList = this.resourceService.getResourceList(query).subscribe({
+      next: (data) => (this.resourceList = data),
+      error: (err) => console.error(err),
+      complete: () => {
+        this.resourceList.sort((a: any, b: any) => a.resourceID - b.resourceID);
+        //console.log(this.resourceList)
+        this.subscribeResourceDetailMap();
+      },
+    });
   }
   subscribeResourceDetailMap() {
-    this.resourceDetailService.getResourceDetailMap(this.query).subscribe({
+    let query: any = '';
+    if (this.query.value !== undefined) {
+      query = this.query.value;
+    }
+    this.resourceDetailService.getResourceDetailMap(query).subscribe({
       next: (data: any) => {
         let formattedMap: Map<any, any[]> = new Map<any, any[]>();
         for (const key in data) {
@@ -91,7 +114,7 @@ export class ResourceComponent {
       },
       error: (err) => console.error(err),
       complete: () => {
-       // console.log(this.resourceDetailMap);
+        // console.log(this.resourceDetailMap);
         console.log('GetResourceDetailMap request is completed!');
       },
     });
@@ -121,6 +144,13 @@ export class ResourceComponent {
   reloadResourceList(isUpdated: boolean) {
     if (isUpdated === true) {
       this.ngOnInit();
+    }
+  }
+
+  addSearchQuery() {
+    const newQuery = this.query.value?.trim();
+    if (newQuery && !this.options.includes(newQuery)) {
+      this.options.push(newQuery);
     }
   }
 }

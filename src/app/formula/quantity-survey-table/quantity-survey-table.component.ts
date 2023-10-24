@@ -17,7 +17,7 @@ export class QuantitySurveyTableComponent implements OnChanges{
    if(changes['isSubmit'] && changes['isSubmit'].currentValue === true && this.formulaList.length !== 0){
       // if (this.formulaList.isValid) {
         console.log("it's time to submit");
-        this.formulaService.addFormulaToList(this.formulaList);
+        this.formulaService.addFormulaToList(this.formulaList.value);
         this.formulaList.clear() //reset the list
       // } else {
       //   alert('You have unfinished formula input');
@@ -34,9 +34,9 @@ export class QuantitySurveyTableComponent implements OnChanges{
 
   addFormula() {
     const group = new FormGroup({
-      field: new FormControl('',[Validators.required]),
-      type: new FormControl('',[Validators.required]),
-      formula: new FormControl(''),
+      fieldName: new FormControl('',[Validators.required]),
+      fieldType: new FormControl('',[Validators.required]),
+      fieldValue: new FormControl(''),
     });
     console.log(this.formulaList.controls);
     this.formulaList.push(group);

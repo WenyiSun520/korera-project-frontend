@@ -1,15 +1,29 @@
 <div id="resource">
   <header class="resourceHeader">
     <div class="searchbox">
-      <input
-        type="text"
-        placeholder="keywords"
-        size="15"
-        [(ngModel)]="query"
-        (keyup.enter)="searchQuery()"
-        (input)="autoFetchAll($event)"
-      />
-      <i class="fa-solid fa-magnifying-glass" (click)="searchQuery()"></i>
+      <form class="searchbox">
+        <input
+          type="text"
+          placeholder="keywords"
+          aria-label="Keywords"
+          matInput
+          [formControl]="query"
+          [matAutocomplete]="auto"
+          (keyup.enter)="searchQuery()"
+          (input)="autoFetchAll($event)"
+        />
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+        
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+
+        <i class="fa-solid fa-magnifying-glass" (click)="searchQuery()"></i>
+      </form>
     </div>
     <p class="headerTitle">Resource Catalog</p>
     <div class="editResourceTable">

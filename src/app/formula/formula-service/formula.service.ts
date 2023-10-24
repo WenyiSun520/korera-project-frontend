@@ -1,7 +1,4 @@
-import {
-  HttpClient,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth-service/auth.service';
@@ -43,24 +40,20 @@ export class FormulaService {
           headers: headers,
         }
       )
-       .pipe(
+      .pipe(
         map((data: any) => {
-           let filteredMap = new Map<string, any[]>();
-          if(this.filteredType.length !== 0){
-          this.filteredType.forEach((key:any) => {
-            if (data.has(key)) {
-              filteredMap.set(key, data.get(key)!);
+          let filteredMap = new Map<string, any[]>();
+
+          for (const key in data) {
+            if (data.hasOwnProperty(key) && !this.filteredType.includes(key)) {
+              filteredMap.set(key, data[key]);
             }
-          });
-        }else{
-          filteredMap = data;
-        }
+          }
 
           return filteredMap;
         }),
         catchError(errorHandler)
       );
-
   }
 
   getFormulaTypeByProjectName(name: string) {
@@ -76,12 +69,14 @@ export class FormulaService {
         }
       )
       .pipe(catchError(errorHandler));
-     
-      return getFormulaTypeRequest;
+
+    return getFormulaTypeRequest;
   }
 
   addFormulaToList(formula: any) {
-    let formattedFormula = this.formatFormulaHelper(formula.value);
+    let formattedFormula;
+    formattedFormula = this.formatFormulaHelper(formula);
+    console.log(formattedFormula);
     this.addFormulaToListHelper(formattedFormula).subscribe({
       complete: () => console.log('add formula to list completed!'),
     });
@@ -93,15 +88,16 @@ export class FormulaService {
     // console.log(formula);
     let formulaList: any = [];
     formula.map((item: any) => {
+    
       let obj = {
-        fieldName: item.field,
-        fieldType: item.type,
-        fieldValue: item.formula,
+        fieldName: item.fieldName,
+        fieldType: item.fieldType,
+        fieldValue: item.fieldValue,
         project: {
           projectId: projectId,
         },
         resource: {
-          resourceID: null,
+          resourceID: item.resourceId? item.resourceId :2602,
         },
       };
       formulaList.push(obj);
@@ -118,27 +114,21 @@ export class FormulaService {
       responseType: 'text',
     });
   }
-  addFilterType(list:any){
+  addFilterType(list: any) {
     this.filteredType.length = 0;
-    this.filteredType.push(...list)
-      console.log(this.filteredType);
-
+    this.filteredType.push(...list);
+    console.log(this.filteredType);
   }
 
-  updateFieldValue(formulaId:number, value:string){
-     const headers = new HttpHeaders({
-       Authorization: `Bearer ${this.authService.getToken()!}`,
-     });
-    this.http.put(`${SERVER_ADDRESS}api/formula/update-value/${formulaId}/${value}`, {
-       headers: headers,
-     })
+  updateFieldValue(formulaId: number, value: string) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.getToken()!}`,
+    });
+   return this.http
+      .put(`${SERVER_ADDRESS}api/formula/update-value/${formulaId}/${value}`, {},{
+        headers: headers, responseType: 'text'
+      })
       .pipe(catchError(errorHandler))
-     .subscribe({
-        complete:()=>console.log("updateFieldValue completed! ", formulaId," ", value)
-     })
-
+      
   }
-
-
-
 }

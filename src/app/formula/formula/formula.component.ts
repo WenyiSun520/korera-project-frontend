@@ -34,45 +34,88 @@ export class FormulaComponent {
         .subscribe({
           next: (data) => {
             this.resourceList = data;
-          },
-          error: (Err) => console.log(Err),
-          complete: () => {
             this.resourceList.sort(function (a: any, b: any) {
               return a.resourceID - b.resourceID;
             });
           },
-        });
-
-      this.formulaService
-        .getFormulaByProjectName(this.currentProjectName)
-        .subscribe({
-          next: (data) => {
-            this.formulaMap = data;
-            console.log(data);
-          },
           error: (Err) => console.log(Err),
+          complete: () => {
+            this.getFormulaMap();
+          },
         });
     });
   }
-  handleOpenEditFormulaBox(formulaId: number, resourceID: number) {
-    this.toggleFormulsinput = '' + formulaId;
-    // this.toggleFormulsinput = '';
-    console.log(resourceID);
-    console.log(this.toggleFormulsinput == '' + formulaId);
+
+  getFormulaMap() {
+    this.formulaService
+      .getFormulaByProjectName(this.currentProjectName)
+      .subscribe({
+        next: (data: any) => {
+          console.log(data instanceof Map);
+          if (data instanceof Map) {
+            for (const [key, value] of data) {
+              const list: any[] = value;
+              const sample = list[0];
+              this.resourceList.map((item: any) => {
+                if (
+                  list.find(
+                    (formula: any) => formula.resourceId === item.resourceID
+                  ) === undefined
+                ) {
+                  let obj = {
+                    formulaId: -1,
+                    fieldName: key,
+                    fieldType: sample.fieldType,
+                    fieldValue: ' ',
+                    projectId: sample.projectId,
+                    resourceId: item.resourceID,
+                  };
+                  list.push(obj);
+                }
+              });
+              data.set(
+                key,
+                list
+                  .slice()
+                  .sort((a: any, b: any) => a.resourceID - b.resourceID)
+              );
+            }
+            this.formulaMap = data
+          }
+        },
+        error: (Err) => console.log(Err)
+      });
+  }
+  handleOpenEditFormulaBox(key: string, resourceID: number) {
+    this.toggleFormulsinput = key + resourceID;
   }
   cancelFormulaInput() {
-    // console.log('cancel');
     this.toggleFormulsinput = '';
   }
   submitFieldValue(formulaId: number, formula: any) {
+    console.log(formulaId);
+    console.log(formula);
     if (this.formulaValueInput !== '' && formulaId !== -1) {
-      this.formulaService.updateFieldValue(formulaId, this.formulaValueInput);
+     // formula.fieldValue = this.formulaValueInput;
+      this.formulaService
+        .updateFieldValue(formulaId, this.formulaValueInput)
+        .subscribe({
+          error: () => console.log('error when upding field value'),
+          complete: () => {
+            formula.fieldValue = this.formulaValueInput;
+              this.toggleFormulsinput = '';
+            // console.log('updateFieldValue completed! ', formulaId, ' ', value)
+          },
+        });
     }
     if (this.formulaValueInput !== '' && formulaId === -1) {
-      this.formulaService.addFormulaToList(formula)
+      formula.fieldValue = this.formulaValueInput;
+      this.formulaService.addFormulaToList([formula])
+       formula.fieldValue = this.formulaValueInput;
+          this.toggleFormulsinput = '';
     }
 
-    this.toggleFormulsinput = '';
+  
   }
   goBack() {
     this.location.back();

@@ -28,9 +28,9 @@
       </thead>
       <tbody>
         <tr class="formularow" *ngFor="let i of sortByResourceId($any(formula).value); let index = index">
-          <td (dblclick)="handleOpenEditFormulaBox(i.formulaId, i.resourceId)">
-            <span *ngIf="toggleFormulsinput !== ''+i.formulaId">{{ i.fieldValue }}</span>
-            <span *ngIf="toggleFormulsinput === ''+i.formulaId">
+          <td (dblclick)="handleOpenEditFormulaBox(i.fieldName, i.resourceId)">
+            <span *ngIf="toggleFormulsinput !== i.fieldName+i.resourceId">{{ i.fieldValue }}</span>
+            <span *ngIf="toggleFormulsinput === i.fieldName+i.resourceId">
               <input
                 id="input id_{{ i.formulaId }}"
                 type="text"

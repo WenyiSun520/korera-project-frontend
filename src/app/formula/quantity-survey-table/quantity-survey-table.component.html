@@ -7,11 +7,11 @@
     <ng-container [formGroup]="item">
       <div class="field">
         <label name="field">Field*</label>
-        <input id="field" type="text" formControlName="field" />
+        <input id="field" type="text" formControlName="fieldName" />
       </div>
       <div class="field">
         <label name="type">Type*</label>
-        <select formControlName="type">
+        <select formControlName="fieldType">
           <option value="">Select Field Type</option>
           <option *ngFor="let type of enumType" value={{type}}>
             {{ type | lowercase }}
@@ -23,7 +23,7 @@
           item.value.type === 'FORMULA' ? 'visible' : 'hidden'
         ">
         <label name="formula">Formula</label>
-         <input id="field" type="text" formControlName="formula" />
+         <input id="field" type="text" formControlName="fieldValue" />
       </div>
 
       <div class="field">
