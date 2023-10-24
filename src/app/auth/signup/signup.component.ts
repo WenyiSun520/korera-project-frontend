@@ -33,25 +33,25 @@ export class SignupComponent {
 
   handleSubmit() {
     if (this.signUpForm.value.passwords !== this.signUpForm.value.confirmed) {
-      this.showErrorMsg("Passwords unmatch!")
+      this.showErrorMsg('Passwords unmatch!');
     } else {
       this.authService.signUp(this.signUpForm.value);
       this.isLoggedIn.subscribe((value) => {
         if (value) {
           this.router.navigate(['resource-list']);
         } else {
-         this.showErrorMsg("Can't sign you up. Please try again!")
+          this.showErrorMsg("Can't sign you up. Please try again!");
         }
       });
     }
   }
-  showErrorMsg(msg:string){
+
+  showErrorMsg(msg: string) {
     this.showMessage = true;
     this.submitMsg = msg;
     setTimeout(() => {
       this.showMessage = false;
     }, 3000);
-
   }
 
   togglePasswordVisibility() {

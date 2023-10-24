@@ -1,6 +1,6 @@
 <div class="projectPage">
   <div class="dropdown">
-    <p class="currentSelection">{{currentProject?.projectName}}</p>
+    <p class="currentSelection">{{ currentProject?.projectName }}</p>
     <button class="dropbtn" (click)="toggleDropdown()" *ngIf="!isDropdownOpend">
       <i class="fa-solid fa-caret-down"></i>
     </button>
@@ -28,5 +28,7 @@
   </div>
 
   <router-outlet></router-outlet>
-  <p *ngIf="projectList.length === 0">You haven't created any project. Please create one!</p>
+  <p *ngIf="projectList.length === 0">
+    You haven't created any project. Please create one!
+  </p>
 </div>

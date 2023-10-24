@@ -35,7 +35,7 @@ export class ResourceDetailComponent implements OnChanges {
     if (changes['resourceDetailMap']) {
       //console.log(changes['resourceList'].currentValue)
       this.resourceDetailMap = changes['resourceDetailMap'].currentValue;
-    //  console.log(changes['resourceDetailMap'].currentValue);
+      //  console.log(changes['resourceDetailMap'].currentValue);
     }
     if (changes['resourceList']) {
       this.resourceList = changes['resourceList'].currentValue;
@@ -66,36 +66,30 @@ export class ResourceDetailComponent implements OnChanges {
       .subscribe({
         // error:(err)=>console.log("error when updating detail", err),
         complete: () => {
-          let obj = {
-            created_date: new Date(),
-            detailDescription: this.newResourceDetailDescription,
-            detailID: 0,
-            detailName: this.newResourceDetailName,
-            latest_modified_by: 'null',
-            latest_updated: new Date(),
-            resourceID: this.selectedOption,
-            resourceName: this.selectedOption,
-          };
-          let list: any[] = [obj];
+          let list: any[] = [];
 
           this.resourceList.map((item: any) => {
-            if (
-              !list.find(
-                (resource: any) => resource.resourceID === item.resourceID
-              )
-            ) {
-              let obj = {
-                detailID: -1,
-                detailName: this.newResourceDetailName,
-                detailDescription: 'n/a',
-                created_date: '',
-                latest_modified_by: 'null',
-                latest_updated: '',
-                resourceID: item.resourceID,
-                resourceName: item.resourceName,
-              };
-              list.push(obj);
+            let obj = {
+              detailID: -1,
+              detailName: this.newResourceDetailName,
+              detailDescription: 'n/a',
+              created_date: '',
+              latest_modified_by: 'null',
+              latest_updated: '',
+              resourceID: item.resourceID,
+              resourceName: item.resourceName,
+            };
+            if (item.resourceID == this.selectedOption) {
+              obj.created_date = new Date().toDateString();
+              obj.detailDescription = this.newResourceDetailDescription;
+              obj.detailID = 0;
+              obj.detailName = this.newResourceDetailName;
+              obj.latest_modified_by = 'null';
+              obj.latest_updated = new Date().toDateString();
+              obj.resourceID = this.selectedOption;
             }
+
+            list.push(obj);
           });
           this.resourceDetailMap.set(
             this.newResourceDetailName,

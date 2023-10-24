@@ -1,4 +1,4 @@
-<form class="loginForm" [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+<form class="loginForm" [formGroup]="loginForm">
   <h1>Welcome Back!</h1>
   <div class="username">
     <label for="username">Username: </label>
@@ -26,9 +26,9 @@
     </span>
   </div>
 
-  <button type="submit"  [disabled]="!loginForm.valid">Log In</button>
+  <button type="submit" (click)="loginForm.valid? handleSubmit() : showErrorMsg('Can\'t log you in. Required Fields Missing')">Log In</button>
 </form>
-<span>{{ ErrorMsg}}</span>
+<span [ngStyle]="{color:'red'}">{{ ErrorMsg}}</span>
 <span>
   Create account?
   <button type="submit" (click)="navigateToSignUp()">Sign Up</button>

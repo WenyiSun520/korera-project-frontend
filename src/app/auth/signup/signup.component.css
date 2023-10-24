@@ -30,7 +30,10 @@ button {
   margin: 5px;
 }
 input {
-  line-height: 2em;
+    height:36px;
+  font-size: 16px;
+  border-radius: 5px;
+  text-indent: 2px;
 }
 
 input:focus {
@@ -44,3 +47,5 @@ input:focus {
   border: none;
   cursor: pointer;
 }
+
+

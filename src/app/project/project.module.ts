@@ -6,6 +6,8 @@ import { ResourceTableComponent } from './resource-table/resource-table.componen
 import { ProjectTableComponent } from './project-table/project-table.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { JoinedTableComponent } from './joined-table.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -16,7 +18,13 @@ import { JoinedTableComponent } from './joined-table.component';
     ProjectTableComponent,
     JoinedTableComponent,
   ],
-  imports: [CommonModule, FormsModule,AppRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    AppRoutingModule,
+    MatButtonModule,
+    MatMenuModule,
+  ],
   exports: [ProjectComponent],
 })
 export class ProjectModule {}

@@ -5,31 +5,20 @@
       <span class="headerBtn">
         <i
           class="fa-solid fa-list-ul"
+          [matMenuTriggerFor]="menu"
           (click)="toggleSectionBox = !toggleSectionBox"
         ></i>
-        <div class="selectAllBox" *ngIf="toggleSectionBox">
-          <span>
-            <input
-              type="radio"
-              id="selectAll"
-              name="selection"
-              (click)="checkAll($event)"
-            />
-            <label for="selectAll">Select All</label>
-          </span>
-          <span>
-            <input
-              type="radio"
-              id="clear"
-              name="selection"
-              (click)="uncheckAll($event)"
-            />
-            <label for="clear">Clear Selection</label>
-          </span>
-        </div>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="checkAll($event)">Select All</button>
+          <button mat-menu-item (click)="uncheckAll($event)">
+            Clear Selection
+          </button>
+        </mat-menu>
+
         <i class="fa-solid fa-share" (click)="sendToProjec()"></i>
       </span>
     </caption>
+
     <thead>
       <th>Resource Code</th>
       <th>Resource Name</th>
@@ -37,7 +26,10 @@
     <tbody>
       <tr
         class="resource-info"
-        *ngFor="let resource of addableResourcesOfCurrentProject; let index = index"
+        *ngFor="
+          let resource of addableResourcesOfCurrentProject;
+          let index = index
+        "
       >
         <td>
           <input
@@ -50,7 +42,6 @@
             id="{{ resource.resourceID }}"
             value="{{ resource.resourceID }}"
             [checked]="resource.ischecked"
-      
           />
           {{ resource.resourceID }}
         </td>

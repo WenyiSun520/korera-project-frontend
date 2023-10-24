@@ -16,25 +16,28 @@ export class ProjectTableComponent {
   @Output() isListUpdated = new EventEmitter<boolean>();
   //@Output() isResourceSubmitted = new EventEmitter<boolean>();
 
-  constructor(
-    private projectService: ProjectService,
-    private router:Router
-  ) {}
+  constructor(private projectService: ProjectService, private router: Router) {}
   ngOnInit(): void {
     this.resourceList = this.projectService.getSelectedResource();
-    //console.log(this.resourceList);
   }
 
   addToReadyToDeletedList(resource: any) {
-    this.readyToDeletedList.push(resource);
+    console.log("add to ready list")
+        resource.ischecked = false;
+   this.readyToDeletedList.push(resource);
+   console.log(resource)
+    console.log(this.readyToDeletedList);
+
+
   }
   removedFromReadyToDeletedList(resource: any) {
-    console.log('remove from list');
-    console.log(resource.ischecked);
-    let index = this.resourceList.findIndex(
+    console.log('remove from readt list');
+        resource.ischecked = true;
+    let index = this.readyToDeletedList.findIndex(
       (item: any) => item.resourceID === resource.resourceID
     );
-    this.resourceList.splice(index, 1);
+    this.readyToDeletedList.splice(index, 1);
+    console.log(this.readyToDeletedList);
   }
 
   deleteSelectedResource() {
@@ -54,7 +57,7 @@ export class ProjectTableComponent {
       if (this.currentProject !== undefined) {
         this.projectService.addResourceToProject(this.currentProject);
         this.resourceList.length = 0;
-       //this.isResourceSubmitted.emit(true)
+        //this.isResourceSubmitted.emit(true)
       } else {
         this.showMessage = true;
         this.submitMsg = "You haven't selected a project!";
@@ -66,13 +69,9 @@ export class ProjectTableComponent {
   }
 
   navigateToFormula() {
-   // console.log(this.currentProject);
-   // console.log(this.projectService.getSelectedResource().length)
-
-     //this.resourceList.length = 0;
-     this.router.navigate([
-       'project-list/formula',this.currentProject.projectName
-     ]);
-
+    this.router.navigate([
+      'project-list/formula',
+      this.currentProject.projectName,
+    ]);
   }
 }

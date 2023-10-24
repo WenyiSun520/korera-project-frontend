@@ -43,8 +43,14 @@ app-resource-table, app-project-table{
 }
 
 .createproject-content {
+  position: absolute;
+  transform: translateX(-100px);
+  z-index:5;
   display: flex;
   flex-direction: column;
   background-color: gray;
   padding:5px;
+}
+.createproject-content button {
+  margin-top: 5px;
 }

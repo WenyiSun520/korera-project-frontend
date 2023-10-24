@@ -9,8 +9,9 @@
           matInput
           [formControl]="query"
           [matAutocomplete]="auto"
-          (keyup.enter)="searchQuery()"
           (input)="autoFetchAll($event)"
+          (keyup.enter)="searchQuery()"
+       
         />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
           <mat-option

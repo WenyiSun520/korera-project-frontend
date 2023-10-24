@@ -47,9 +47,9 @@ export class AuthService {
   signUp(obj: any) {
     console.log(obj);
     this.http
-      .post(`${SERVER_ADDRESS}api/auth/registere`, {
+      .post(`${SERVER_ADDRESS}api/auth/register`, {
         username: obj.username,
-        password: obj.password,
+        password: obj.passwords,
         fname: obj.fname,
         lname: obj.lname,
       })

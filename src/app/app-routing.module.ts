@@ -12,6 +12,7 @@ import { authGuard } from './guard/auth.guard';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { deactiveGuard } from './guard/deactive.guard';
 
+
 const routes: Routes = [
   { path: '', redirectTo: 'resource-list', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -41,13 +42,14 @@ const routes: Routes = [
       {
         path: 'template/:projectName',
         component: TemplateComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
     ],
-  },{
-    path:'template',
-      component: TemplateComponent,
-        canActivate: [authGuard]
+  },
+  {
+    path: 'template',
+    component: TemplateComponent,
+    canActivate: [authGuard],
   },
   { path: '**', component: PageNotFoundComponent },
 ];

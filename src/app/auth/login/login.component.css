@@ -22,7 +22,10 @@
 }
 .username input,
 .passwords input {
-  line-height: 2em;
+  height:36px;
+  font-size: 16px;
+  border-radius: 5px;
+  text-indent: 2px;
 }
 
 .username input:focus,

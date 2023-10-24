@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ResourceService } from './resource-service/resource.service';
 import { ResourceDetailService } from './resource-service/resource-detail.service';
 import { FormControl } from '@angular/forms';
@@ -153,4 +153,5 @@ export class ResourceComponent {
       this.options.push(newQuery);
     }
   }
+
 }

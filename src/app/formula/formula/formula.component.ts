@@ -41,6 +41,7 @@ export class FormulaComponent {
           error: (Err) => console.log(Err),
           complete: () => {
             this.getFormulaMap();
+            this.formulaService.sampleResource = this.resourceList[0];
           },
         });
     });
@@ -93,8 +94,8 @@ export class FormulaComponent {
     this.toggleFormulsinput = '';
   }
   submitFieldValue(formulaId: number, formula: any) {
-    console.log(formulaId);
-    console.log(formula);
+    // console.log(formulaId);
+    // console.log(formula);
     if (this.formulaValueInput !== '' && formulaId !== -1) {
      // formula.fieldValue = this.formulaValueInput;
       this.formulaService
@@ -104,6 +105,7 @@ export class FormulaComponent {
           complete: () => {
             formula.fieldValue = this.formulaValueInput;
               this.toggleFormulsinput = '';
+              this.formulaValueInput = '';
             // console.log('updateFieldValue completed! ', formulaId, ' ', value)
           },
         });

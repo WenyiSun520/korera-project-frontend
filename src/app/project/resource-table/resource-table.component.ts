@@ -49,36 +49,45 @@ export class ResourceTableComponent {
   }
 
   handleSubmittion(resource: any) {
+    resource.ischecked = true;
     this.selectedList.push(resource);
     console.log(resource.ischecked);
+        console.log(this.selectedList);
   }
 
   handleRemove(resource: any) {
-    console.log('remove from list');
+     resource.ischecked = false;
+
     console.log(resource.ischecked);
     let index = this.selectedList.findIndex(
       (item: any) => item.resourceID === resource.resourceID
     );
     this.selectedList.splice(index, 1);
+    console.log(this.selectedList)
   }
 
   sendToProjec() {
     this.projectService.addAll(this.selectedList);
+    console.log(this.selectedList)
   }
 
   checkAll(evt: any) {
+    console.log("check all")
     this.addableResourcesOfCurrentProject.forEach(
-      (c: any) => {c.ischecked = evt.target.checked}
+      (c: any) => {c.ischecked = !evt.target.checked}
     );
     this.selectedList.push(...this.addableResourcesOfCurrentProject)
         this.toggleSectionBox = false;
+         console.log(this.selectedList);
   }
 
   uncheckAll(evt: any) {
+      console.log('decheck all');
     this.addableResourcesOfCurrentProject.forEach(
-      (c: any) => (c.ischecked = !evt.target.checked)
+      (c: any) => (c.ischecked = evt.target.checked)
     );
     this.selectedList.length = 0;
     this.toggleSectionBox = false;
+     console.log(this.selectedList);
   }
 }

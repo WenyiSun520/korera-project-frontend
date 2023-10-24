@@ -1,4 +1,4 @@
-<form class="loginForm" [formGroup]="signUpForm" (ngSubmit)="handleSubmit()">
+<form class="loginForm" [formGroup]="signUpForm">
   <h1>Create your account</h1>
   <div class="username">
     <label for="username">Username: </label>
@@ -66,8 +66,8 @@
     </span>
 
   </div>
-  <p *ngIf="showMessage">{{submitMsg}}</p>
-  <button type="submit" [disabled]="!signUpForm.valid">Sign Up</button>
+  <p *ngIf="showMessage" [ngStyle]="{color:'red'}">{{submitMsg}}</p>
+  <button type="submit" (click)=" signUpForm.valid? handleSubmit() : showErrorMsg('Can\'t sign you in. Required Fields Missing')">Sign Up</button>
 </form>
 <span>
     Already have an account?

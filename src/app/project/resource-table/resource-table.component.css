@@ -7,8 +7,12 @@
   overflow-y: scroll;
 }
 .resourceHeader {
+  position: relative;
   background-color: gray;
   padding: 12px;
+}
+.fa-list-ul {
+  size:20px
 }
 .headerTitle {
   display: inline;
@@ -19,13 +23,14 @@
 
 .selectAllBox {
   position: absolute;
+  float: right;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   background-color: white;
   box-shadow: 1px 0 0 1px gray;
   width: max-content;
-  transform: translate(-100%, -60%);
+  /* transform: translate(200%, -100%); */
   padding: 5px;
 }
 

@@ -49,7 +49,12 @@ export class ProjectComponent implements OnInit {
   createProject() {
     if (!this.nameList.includes(this.createdProjectName)) {
       console.log(this.createdProjectName);
-      this.projectService.createProject(this.createdProjectName);
+      this.projectService.createProject(this.createdProjectName).subscribe({
+       error: (error) => console.log(error),
+       complete:()=>{
+       this.ngOnInit()
+       }
+     });
       this.nameList.push(this.createdProjectName);
     } else {
       this.createdProjectErr = 'Name has existed! Try a new one';
@@ -59,10 +64,12 @@ export class ProjectComponent implements OnInit {
 
   toggleCretedProjectWindow() {
     this.isCreatedProjectWindowOpend = !this.isCreatedProjectWindowOpend;
+        this.isDropdownOpend = false;
   }
 
   toggleDropdown() {
     this.isDropdownOpend = !this.isDropdownOpend;
+      this.isCreatedProjectWindowOpend = false
     // console.log(this.isDropdownOpend);
   }
 

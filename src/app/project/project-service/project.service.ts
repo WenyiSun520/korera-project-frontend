@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth-service/auth.service';
 import {
   HttpClient,
-  HttpErrorResponse,
   HttpHeaders,
 } from '@angular/common/http';
 import { SERVER_ADDRESS } from 'src/app/shared/serverAddress';
@@ -65,6 +64,7 @@ export class ProjectService {
       this.selectedResource.length = 0;
   }
   getSelectedResource() {
+   
     return this.selectedResource;
   }
 
@@ -73,19 +73,19 @@ export class ProjectService {
       Authorization: `Bearer ${this.authService.getToken()!}`,
     });
 
-    this.http
-      .post(
-        `${SERVER_ADDRESS}api/projects/${this.authService.getUsername()}/add_new_project`,
-        {
-          projectName: name,
-        },
-        {
-          headers: headers,
-        }
-      )
-      .subscribe({
-        error: (error) => console.log(error),
-      });
+   return this.http
+     .post(
+       `${SERVER_ADDRESS}api/projects/${this.authService.getUsername()}/add_new_project`,
+       {
+         projectName: name,
+       },
+       {
+         headers: headers,
+         responseType:"text"
+       }
+     )
+     .pipe(catchError(errorHandler))
+    
   }
 
   addAll(resouce: any[]) {
@@ -94,7 +94,7 @@ export class ProjectService {
     this.selectedResource.push(...resouce);
   }
   removeAll(resource: any[]) {
-    this.selectedResource = this.selectedResource.filter(
+    this.selectedResource = resource.filter(
       (re: any) => !resource.includes(re)
     );
     console.log('selectedResource: ', this.selectedResource);

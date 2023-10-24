@@ -6,8 +6,13 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 
 
 
+
 @NgModule({
   declarations: [SignupComponent, LoginComponent],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule
+  ],
 })
 export class AuthModule {}

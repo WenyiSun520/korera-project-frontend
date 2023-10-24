@@ -27,13 +27,19 @@ export class LoginComponent {
       this.loginForm.value.username,
       this.loginForm.value.passwords
     );
-    this.isLoggedIn.subscribe((value)=>{
+    this.isLoggedIn.subscribe((value) => {
       if (value) {
         this.router.navigate(['resource-list']);
       } else {
         this.ErrorMsg = "Can't logg you in. Please try again";
       }
-    })
+    });
+  }
+  showErrorMsg(msg: string) {
+    this.ErrorMsg = msg;
+    setTimeout(() => {
+      this.ErrorMsg = '';
+    }, 3000);
   }
 
   togglePasswordVisibility() {
