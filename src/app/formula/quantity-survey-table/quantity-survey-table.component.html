@@ -5,6 +5,7 @@
       <div class="field">
         <label name="field">Field*</label>
         <input id="field" type="text" formControlName="fieldName" />
+          <div *ngIf="item.get('fieldName').hasError('cannotContainSpace')" [ngStyle]="{color:'red'}">Whitespace not allowed. Use "_" to replace</div>
       </div>
       <div class="field">
         <label name="type">Type*</label>
@@ -32,6 +33,7 @@
         <i class="fa-solid fa-trash-can" (click)="deleteFormula(index)"></i>
       </div>
     </ng-container>
+  
   </div>
 </div>
 

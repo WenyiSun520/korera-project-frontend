@@ -10,10 +10,11 @@
           [formControl]="query"
           [matAutocomplete]="auto"
           (input)="autoFetchAll($event)"
-          (keyup.enter)="searchQuery()"
+          (keyup.enter)="searchQuery(); trigger.closePanel()"
+           #trigger="matAutocompleteTrigger"
        
         />
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-autocomplete #auto="matAutocomplete">
           <mat-option
             *ngFor="let option of filteredOptions | async"
         

@@ -1,4 +1,5 @@
 <i class="fa-solid fa-arrow-left" (click)="goBack()">Back to Project Page</i>
+<span class="warningMsg" *ngIf=" this.toggleWarningMsg">Formula Type is not editable</span>
 <div class="surveyTable">
   <p>Quantity Survey</p>
   <div class="joinTable">
@@ -28,9 +29,9 @@
       </thead>
       <tbody>
         <tr class="formularow" *ngFor="let i of sortByResourceId($any(formula).value); let index = index">
-          <td (dblclick)="handleOpenEditFormulaBox(i.fieldName, i.resourceId)">
+          <td (dblclick)="i.fieldType !== 'FORMULA'?handleOpenEditFormulaBox(i.fieldName, i.resourceId):toggleWarningMessage()">
             <span *ngIf="toggleFormulsinput !== i.fieldName+i.resourceId">{{ i.fieldValue }}</span>
-            <span *ngIf="toggleFormulsinput === i.fieldName+i.resourceId">
+            <span *ngIf="toggleFormulsinput === i.fieldName+i.resourceId ">
               <input
                 id="input id_{{ i.formulaId }}"
                 type="text"
@@ -48,3 +49,4 @@
 <a [routerLink]="['/project-list/template', currentProjectName]"
   >Edit Quantity Survey Template</a
 >
+

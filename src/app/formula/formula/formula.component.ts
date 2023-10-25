@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ResourceService } from 'src/app/resource/resource-service/resource.service';
 import { Location } from '@angular/common';
-import { ProjectService } from 'src/app/project/project-service/project.service';
 import { FormulaService } from '../formula-service/formula.service';
+
 
 @Component({
   selector: 'app-formula',
@@ -12,6 +12,7 @@ import { FormulaService } from '../formula-service/formula.service';
 })
 export class FormulaComponent {
   toggleFormulsinput: string = '';
+  toggleWarningMsg: boolean = false;
   formulaValueInput: string = '';
   currentProject: any;
   currentProjectName: string = '';
@@ -52,47 +53,20 @@ export class FormulaComponent {
       .getFormulaByProjectName(this.currentProjectName)
       .subscribe({
         next: (data: any) => {
-          console.log(data instanceof Map);
+          // console.log(data instanceof Map);
           if (data instanceof Map) {
-            for (const [key, value] of data) {
-              this.formulaService.formulaTypeList.push(key);
-              const list: any[] = value;
-              const sample = list[0];
-              this.resourceList.map((item: any) => {
-                if (
-                  list.find(
-                    (formula: any) => formula.resourceId === item.resourceID
-                  ) === undefined
-                ) {
-                  let obj = {
-                    formulaId: -1,
-                    fieldName: key,
-                    fieldType: sample.fieldType,
-                    fieldValue: ' ',
-                    projectId: sample.projectId,
-                    resourceId: item.resourceID,
-                  };
-                  list.push(obj);
-                }
-              });
-              data.set(
-                key,
-                list
-                  .slice()
-                  .sort((a: any, b: any) => a.resourceID - b.resourceID)
-              );
-            }
-            this.formulaMap = data;
+            this.tranformDataToMap(data);
           }
         },
         error: (Err) => console.log(Err),
+        complete: () => {
+          for (const [key, value] of this.formulaMap) {
+            if (value[0].fieldType === 'FORMULA') {
+              this.prepareFormulaCalculation(value);
+            }
+          }
+        },
       });
-  }
-  handleOpenEditFormulaBox(key: string, resourceID: number) {
-    this.toggleFormulsinput = key + resourceID;
-  }
-  cancelFormulaInput() {
-    this.toggleFormulsinput = '';
   }
   submitFieldValue(formulaId: number, formula: any) {
     if (this.formulaValueInput !== '' && formulaId !== -1) {
@@ -113,6 +87,13 @@ export class FormulaComponent {
       formula.fieldValue = this.formulaValueInput;
       this.toggleFormulsinput = '';
     }
+    this.ngOnInit();
+  }
+  handleOpenEditFormulaBox(key: string, resourceID: number) {
+    this.toggleFormulsinput = key + resourceID;
+  }
+  cancelFormulaInput() {
+    this.toggleFormulsinput = '';
   }
   goBack() {
     this.location.back();
@@ -123,33 +104,102 @@ export class FormulaComponent {
     });
     return list;
   }
-
-  evaluateFormulaType() {
-    // input the formula type and list
-    // fetch the formula
-    // fetch the list in formula
-    // calculate the answer and save to a new attribute in each object 
-    let quality = [1,2,3,4];
-    let price = [4,3,2,1];
-    let result=[];
-    let formula: string = 'a * b';
-    let a : number;
-    let b : number;
-    for(let i = 0 ; i < quality.length ; i++){
-      if(String(quality[i]) !== "" && String(price[i])!== ""){
-        a = quality[i];
-        b = price[i];
-        result[i] = eval(formula);
-
-      }else{
-        result[i] ="n/a"
-      }
-    console.log(result)
+  toggleWarningMessage() {
+    this.toggleWarningMsg = true;
+    setTimeout(() => {
+      this.toggleWarningMsg = false;
+    }, 3000);
   }
 
+  tranformDataToMap(data: any) {
+    for (const [key, value] of data) {
+      this.formulaService.formulaTypeList.push(key);
+      const list: any[] = value;
+      const sample = list[0];
+      this.resourceList.map((item: any) => {
+        if (
+          list.find(
+            (formula: any) => formula.resourceId === item.resourceID
+          ) === undefined
+        ) {
+          let obj = {
+            formulaId: -1,
+            fieldName: key,
+            fieldType: sample.fieldType,
+            fieldValue: ' ',
+            projectId: sample.projectId,
+            resourceId: item.resourceID,
+          };
+          list.push(obj);
+        }
+      });
+      data.set(
+        key,
+        list.slice().sort((a: any, b: any) => a.resourceID - b.resourceID)
+      );
+    }
+    this.formulaMap = data;
+  }
 
+  prepareFormulaCalculation(value: any) {
+    let formulaArr = value[0].fieldValue.split(/\s+/);
+    let operation = formulaArr[1];
 
+    if (!isNaN(parseFloat(formulaArr[0]))) {
+      // if the first varible is a constant
+      let constant = formulaArr[0];
+      console.log(constant);
+      let listOne = this.formulaMap.get(formulaArr[1]);
+      this.evaluateFormulaWithConstant(value, listOne, constant, operation);
+    }
 
+    if (!isNaN(parseFloat(formulaArr[2]))) {
+      // if the second varible is a constant
+      let listOne = this.formulaMap.get(formulaArr[0]);
+      let constant = formulaArr[2];
+      console.log(constant);
+      this.evaluateFormulaWithConstant(value, listOne, constant, operation);
+    }
 
+    if (isNaN(parseFloat(formulaArr[0])) && isNaN(parseFloat(formulaArr[2]))) {
+      let listOne = this.formulaMap.get(formulaArr[0]);
+      let listTwo = this.formulaMap.get(formulaArr[2]);
+
+      this.evaluateFormula(value, listOne, listTwo, operation);
+    }
+  }
+
+  evaluateFormula(value: any, listOne: any, listTwo: any, operation: any) {
+    let q = listOne;
+    let P = listTwo;
+
+    for (let i = 0; i < q.length; i++) {
+      if (String(q[i].fieldValue) !== '' && String(P[i].fieldValue) !== '') {
+        let formula: string = q[i].fieldValue + operation + P[i].fieldValue;
+
+        value[i].fieldValue = eval(formula);
+      } else {
+        value[i].fieldValue = 'n/a';
+      }
+    }
+  }
+
+  evaluateFormulaWithConstant(
+    value: any,
+    listOne: any,
+    constant: number,
+    operation: any
+  ) {
+    let q = listOne;
+
+    for (let i = 0; i < q.length; i++) {
+      if (String(q[i].fieldValue) !== '') {
+        let formula: string = q[i].fieldValue + operation + constant;
+        console.log(formula);
+        value[i].fieldValue = eval(formula);
+      } else {
+        value[i].fieldValue = 'n/a';
+      }
+    }
   }
 }

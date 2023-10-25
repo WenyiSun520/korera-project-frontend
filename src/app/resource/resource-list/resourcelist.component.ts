@@ -1,7 +1,6 @@
 import { Component, Input, OnInit,Output,EventEmitter, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResourceService } from '../resource-service/resource.service';
-import { Resource } from '../resource';
 import { AuthService } from 'src/app/auth/auth-service/auth.service';
 
 @Component({

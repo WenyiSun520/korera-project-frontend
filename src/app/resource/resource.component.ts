@@ -1,8 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component} from '@angular/core';
 import { ResourceService } from './resource-service/resource.service';
 import { ResourceDetailService } from './resource-service/resource-detail.service';
 import { FormControl } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-resource',
@@ -153,5 +155,4 @@ export class ResourceComponent {
       this.options.push(newQuery);
     }
   }
-
 }

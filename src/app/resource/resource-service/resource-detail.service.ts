@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ResourceDetail } from '../resourceDetail';
-import { ResourceService } from './resource.service';
 import { AuthService } from 'src/app/auth/auth-service/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SERVER_ADDRESS } from 'src/app/shared/serverAddress';

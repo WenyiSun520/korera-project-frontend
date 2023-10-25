@@ -6,7 +6,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ResourceService } from 'src/app/resource/resource-service/resource.service';
-import { Resource } from 'src/app/resource/resource';
 import { ProjectService } from '../project-service/project.service';
 import { Event } from '@angular/router';
 
@@ -22,7 +21,7 @@ export class ResourceTableComponent {
   @Input() currentProject: any;
   @Input() addableResourcesOfCurrentProject: any;
   @Input() isLProjectTableRemovedList: boolean = false;
-  @Output() selectedResource = new EventEmitter<Resource>();
+  @Output() selectedResource = new EventEmitter<any>();
 
   constructor(
     private resourceService: ResourceService,

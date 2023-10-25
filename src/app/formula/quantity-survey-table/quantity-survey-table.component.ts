@@ -2,10 +2,12 @@ import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { FormulaService } from '../formula-service/formula.service';
 import { Location } from '@angular/common';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 
@@ -29,13 +31,13 @@ export class QuantitySurveyTableComponent implements OnChanges {
       changes['isSubmit'].currentValue === true &&
       this.formulaList.length !== 0
     ) {
-      if (this.formulaList.status === "VALID") {
-      console.log("it's time to submit");
-      this.formulaService.addFormulaToList(this.formulaList.value);
-      this.formulaList.clear();
-      this.goBack();
+      if (this.formulaList.status === 'VALID') {
+        console.log("it's time to submit");
+        this.formulaService.addFormulaToList(this.formulaList.value);
+        this.formulaList.clear();
+        this.goBack();
       } else {
-        alert("Can't Submit your reqeustYou have unfinished formula input");
+        alert("Can't Submit your reqeust! You have unfinished formula input");
       }
     }
   }
@@ -49,7 +51,10 @@ export class QuantitySurveyTableComponent implements OnChanges {
 
   addFormula() {
     const group = new FormGroup({
-      fieldName: new FormControl('', [Validators.required]),
+      fieldName: new FormControl('', [
+        Validators.required,
+        this.cannotContainSpace,
+      ]),
       fieldType: new FormControl('', [Validators.required]),
       fieldValue: new FormControl(''),
     });
@@ -64,6 +69,16 @@ export class QuantitySurveyTableComponent implements OnChanges {
     this.location.back();
   }
 
+  cannotContainSpace(control: AbstractControl): ValidationErrors | null {
+        if(control.valueChanges){
+          let value = control.value;
+          if(value && value.includes(' ')){
+           return { cannotContainSpace: true };
+          }
+          return null;
+        }
+        return null;
+  }
   //discard for now,may use later
   // updateTypeList(){
   //   for(let i = 0; i<this.formulaList.controls.length;i++){
