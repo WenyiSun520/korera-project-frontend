@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ResourceService } from 'src/app/resource/resource-service/resource.service';
 import { Location } from '@angular/common';
 import { FormulaService } from '../formula-service/formula.service';
+import { ProjectService } from 'src/app/project/project-service/project.service';
 
 
 @Component({
@@ -11,19 +12,22 @@ import { FormulaService } from '../formula-service/formula.service';
   styleUrls: ['./formula.component.css'],
 })
 export class FormulaComponent {
+  toggleEditTable: boolean = false;
   toggleFormulsinput: string = '';
   toggleWarningMsg: boolean = false;
   formulaValueInput: string = '';
   currentProject: any;
   currentProjectName: string = '';
   resourceList: any = [];
+  deletedList: any = [];
   formulaMap: Map<string, any> = new Map<string, any>();
 
   constructor(
     private location: Location,
     private activedRouter: ActivatedRoute,
     private resourceService: ResourceService,
-    private formulaService: FormulaService
+    private formulaService: FormulaService,
+    private projectService:ProjectService
   ) {}
 
   ngOnInit() {
@@ -201,5 +205,37 @@ export class FormulaComponent {
         value[i].fieldValue = 'n/a';
       }
     }
+  }
+
+  deleteFormula(formula: any) {
+    if (confirm(`Delete Formula: ${formula}`)) {
+      this.formulaService.deleteFormula(formula).subscribe({
+        error: (err) => console.log('error when deleting formula: ', err),
+        complete: () => this.ngOnInit(),
+      });
+    }
+  }
+  handleSubmittion(resource: any) {
+    resource.ischecked = true;
+    this.deletedList.push(resource.resourceID);
+    console.log(resource.ischecked);
+    console.log(this.deletedList);
+  }
+
+  handleRemove(resource: any) {
+    resource.ischecked = false;
+
+    console.log(resource.ischecked);
+    let index = this.deletedList.findIndex(
+      (item: any) => item.resourceID === resource.resourceID
+    );
+    this.deletedList.splice(index, 1);
+    console.log(this.deletedList);
+  }
+  delteResource() {
+   this.toggleEditTable = false;
+   this.projectService.removeResourceFromProject(this.deletedList).subscribe({
+    complete:()=>{this.ngOnInit()}
+   })
   }
 }

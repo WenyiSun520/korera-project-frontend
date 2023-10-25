@@ -133,4 +133,22 @@ export class FormulaService {
       .pipe(catchError(errorHandler))
       
   }
+
+  deleteFormula(formulaName:string){
+    let projectId = this.projectService.currentProject.projectId;
+    console.log(`${SERVER_ADDRESS}api/formula/${projectId}/${formulaName}`);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.getToken()!}`,
+    });
+    return this.http
+      .delete(
+        `${SERVER_ADDRESS}api/formula/${projectId}/${formulaName}`,
+        {
+          headers: headers,
+          responseType:"text"
+        }
+      )
+      .pipe(catchError(errorHandler));
+
+  }
 }

@@ -13,11 +13,9 @@ import { errorHandler } from 'src/app/shared/errorHandler';
   providedIn: 'root',
 })
 export class ProjectService {
-  
   private selectedResource: any = [];
   toggleSelectAll: boolean = false;
-  currentProject:any;
-  
+  currentProject: any;
 
   constructor(private authService: AuthService, private http: HttpClient) {}
 
@@ -33,12 +31,10 @@ export class ProjectService {
       }
     );
 
-   
-
     return getProjectsRequest.pipe(catchError(errorHandler));
   }
 
-  getSingleProjectByName(name:any){
+  getSingleProjectByName(name: any) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.authService.getToken()!}`,
     });
@@ -53,18 +49,17 @@ export class ProjectService {
     return getSingleProjectRequest.pipe(catchError(errorHandler));
   }
 
-  setCurrentProject(project:any){
+  setCurrentProject(project: any) {
     this.currentProject = project;
   }
-  getCurrentProject(){
+  getCurrentProject() {
     return this.currentProject;
   }
 
-  resetSelectedResource(){
-      this.selectedResource.length = 0;
+  resetSelectedResource() {
+    this.selectedResource.length = 0;
   }
   getSelectedResource() {
-   
     return this.selectedResource;
   }
 
@@ -73,19 +68,18 @@ export class ProjectService {
       Authorization: `Bearer ${this.authService.getToken()!}`,
     });
 
-   return this.http
-     .post(
-       `${SERVER_ADDRESS}api/projects/${this.authService.getUsername()}/add_new_project`,
-       {
-         projectName: name,
-       },
-       {
-         headers: headers,
-         responseType:"text"
-       }
-     )
-     .pipe(catchError(errorHandler))
-    
+    return this.http
+      .post(
+        `${SERVER_ADDRESS}api/projects/${this.authService.getUsername()}/add_new_project`,
+        {
+          projectName: name,
+        },
+        {
+          headers: headers,
+          responseType: 'text',
+        }
+      )
+      .pipe(catchError(errorHandler));
   }
 
   addAll(resouce: any[]) {
@@ -128,7 +122,23 @@ export class ProjectService {
       )
       .subscribe({
         error: (error) => console.log(error),
-        complete:()=> this.selectedResource.length = 0
+        complete: () => (this.selectedResource.length = 0),
       });
+  }
+
+  removeResourceFromProject(resourcesIdList: any) {
+    console.log(resourcesIdList);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.getToken()!}`,
+    });
+
+    return this.http.put(
+      `${SERVER_ADDRESS}api/projects/updateProject/${this.currentProject.projectId}`,
+      resourcesIdList,
+      {
+        headers: headers,
+        responseType: 'text',
+      }
+    );
   }
 }

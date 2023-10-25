@@ -1,19 +1,29 @@
 * {
   box-sizing: content-box;
 }
-.fa-arrow-left,a{
-    margin-left: 20px;
+
+.fa-arrow-left,
+a {
+  margin-left: 20px;
+  margin-top: 20px;
 }
 .surveyTable {
   border: 1px solid lightgray;
   margin-left: 20px;
-   margin-right: 20px;
+  margin-right: 20px;
+  margin-top: 2%;
 }
 .surveyTable p {
   background-color: gray;
   font-weight: 700;
   padding: 10px;
   text-align: center;
+}
+.editBtn {
+  display: block;
+  float: right;
+  margin:10px;
+   margin-right: 20px;
 }
 .joinTable {
   display: flex;
@@ -31,6 +41,12 @@
   background-color: lightgray;
   font-weight: 700;
 }
+
+.resourceTable thead th,
+.formulaTable thead th {
+  padding: 10px 0px;
+}
+
 .resourceTable tbody,
 .formulaTable tbody {
   overflow: scroll;
@@ -40,21 +56,20 @@
 }
 
 .resourceTable tbody tr,
-.formulaTable tbody tr{
+.formulaTable tbody tr {
   border-bottom: 1px solid lightgray;
-
 }
-.formulaTable tbody tr{
+.formulaTable tbody tr {
   text-align: center;
 }
 .resourceTable tbody tr td span,
-.formulaTable tbody tr td span{
+.formulaTable tbody tr td span {
   padding-left: 5px;
 }
-.formulaTable .formularow{
+.formulaTable .formularow {
   overflow: hidden;
   /* border: 1px solid lightgray; */
-  line-height: 24px !important
+  line-height: 24px !important;
 }
 .formulaTable tbody tr td:after {
   content: "\00A0";
@@ -66,9 +81,8 @@
   padding: 0;
 }
 
-
 .warningMsg {
-  float:right;
-  margin-right:10%;
-  color:red;
+  float: right;
+  margin-right: 10%;
+  color: red;
 }

@@ -1,5 +1,24 @@
 <i class="fa-solid fa-arrow-left" (click)="goBack()">Back to Project Page</i>
-<span class="warningMsg" *ngIf=" this.toggleWarningMsg">Formula Type is not editable</span>
+<span class="warningMsg" *ngIf="this.toggleWarningMsg"
+  >Formula Type is not editable</span
+>
+<button
+  *ngIf="!toggleEditTable"
+  class="editBtn"
+  type="submit"
+  (click)="toggleEditTable = true"
+>
+  Edit
+</button>
+<button
+  *ngIf="toggleEditTable"
+  class="editBtn"
+  type="submit"
+  (click)="delteResource()"
+>
+  Done
+</button>
+
 <div class="surveyTable">
   <p>Quantity Survey</p>
   <div class="joinTable">
@@ -13,33 +32,60 @@
           class="formula-info"
           *ngFor="let resource of resourceList; let index = index"
         >
-          <td>{{ resource.resourceID }}</td>
+          <td>
+            <input *ngIf="toggleEditTable" type="checkbox" (click)="
+              resource.ischecked
+                ? handleRemove(resource)
+                : handleSubmittion(resource)
+            "/>
+            {{ resource.resourceID }}
+          </td>
           <td>{{ resource.resourceName }}</td>
         </tr>
       </tbody>
     </table>
-
 
     <table
       class="formulaTable"
       *ngFor="let formula of formulaMap | keyvalue; let index = index"
     >
       <thead>
-        <th>{{ formula.key }}</th>
+        <th>
+          {{ formula.key
+          }}<i
+            *ngIf="toggleEditTable"
+            class="fa-solid fa-circle-minus"
+            (click)="deleteFormula(formula.key)"
+          ></i>
+        </th>
       </thead>
       <tbody>
-        <tr class="formularow" *ngFor="let i of sortByResourceId($any(formula).value); let index = index">
-          <td (dblclick)="i.fieldType !== 'FORMULA'?handleOpenEditFormulaBox(i.fieldName, i.resourceId):toggleWarningMessage()">
-            <span *ngIf="toggleFormulsinput !== i.fieldName+i.resourceId">{{ i.fieldValue }}</span>
-            <span *ngIf="toggleFormulsinput === i.fieldName+i.resourceId ">
+        <tr
+          class="formularow"
+          *ngFor="
+            let i of sortByResourceId($any(formula).value);
+            let index = index
+          "
+        >
+          <td
+            (dblclick)="
+              i.fieldType !== 'FORMULA'
+                ? handleOpenEditFormulaBox(i.fieldName, i.resourceId)
+                : toggleWarningMessage()
+            "
+          >
+            <span *ngIf="toggleFormulsinput !== i.fieldName + i.resourceId">{{
+              i.fieldValue
+            }}</span>
+            <span *ngIf="toggleFormulsinput === i.fieldName + i.resourceId">
               <input
                 id="input id_{{ i.formulaId }}"
                 type="text"
-                placeholder="{{ i.fieldValue}}"
-                [(ngModel)]= formulaValueInput
+                placeholder="{{ i.fieldValue }}"
+                [(ngModel)]="formulaValueInput"
                 (keyup.enter)="submitFieldValue(i.formulaId, i)"
               />
-              </span>
+            </span>
           </td>
         </tr>
       </tbody>
@@ -49,4 +95,3 @@
 <a [routerLink]="['/project-list/template', currentProjectName]"
   >Edit Quantity Survey Template</a
 >
-
