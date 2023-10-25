@@ -25,7 +25,10 @@ export class ProjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectService.getProjectList().subscribe({
-      next: (data) => (this.projectList = data),
+      next: (data) => {
+        this.nameList.length = 0;
+        this.projectList.length = 0;
+        this.projectList = data},
       error: (error) =>
         console.log('Error when fetching projectList: ' + error),
       complete: () => {

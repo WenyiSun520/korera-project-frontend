@@ -10,6 +10,8 @@
     <button class="dropbtn" (click)="toggleCretedProjectWindow()">
       <i class="fa-solid fa-plus"></i>
     </button>
+
+   
     <div class="dropdown-content" *ngIf="isDropdownOpend">
       <p *ngIf="projectList.length === 0">
         You havn't created any project yet!
@@ -18,7 +20,6 @@
         {{ name }}
       </p>
     </div>
-
     <div class="createproject-content" *ngIf="isCreatedProjectWindowOpend">
       <label name="projectName">Project Name:</label>
       <input id="projectName" type="text" [(ngModel)]="createdProjectName" />

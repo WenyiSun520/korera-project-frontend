@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormulaService } from '../formula-service/formula.service';
 
 @Component({
   selector: 'app-template',
@@ -11,7 +10,6 @@ export class TemplateComponent {
   isSubmit: boolean = false;
   constructor(
     private location: Location,
-    private formularService: FormulaService
   ) {}
 
   goBack() {
@@ -19,7 +17,7 @@ export class TemplateComponent {
   }
   submit() {
     this.isSubmit = true;
-   this.goBack();
+
   
   }
 }

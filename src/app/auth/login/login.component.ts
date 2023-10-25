@@ -49,4 +49,10 @@ export class LoginComponent {
   navigateToSignUp() {
     this.router.navigate(['signup']);
   }
+
+  toggleRememberMe(){
+    this.authService.rememberMe = !this.authService.rememberMe
+    console.log(this.authService.rememberMe)
+
+  }
 }

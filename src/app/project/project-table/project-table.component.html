@@ -10,10 +10,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let resource of resourceList; let index = index">
-      <td><input type="checkbox" id={{resource.resourceID}}   [checked]="resource.ischecked" value={{resource.resourceID}} (click)="
-              resource.ischecked
-                ? addToReadyToDeletedList(resource)
-                : removedFromReadyToDeletedList(resource)
+      <td><input type="checkbox" id={{resource.resourceID}}   [checked]="!resource.ischecked" value={{resource.resourceID}} (change)="
+               addOrRemoveReadyToDeletedList($event, resource)
             ">{{ resource.resourceID }}</td>
       <td>{{ resource.resourceName }}</td>
     </tr>

@@ -8,7 +8,7 @@
     <div class="user" (click)="toggleProfile()">
         <i class="fa-regular fa-user fa-xl"></i>
         <span>{{user.username}}</span>
-        <app-profile *ngIf="isProfileShowed" [user]="user"></app-profile>
+        <app-profile *ngIf="isProfileShowed" [user]="user" (isProfileShowed)="toggleProfile($event)"></app-profile>
     </div>
     <div class="help">
         <i class="fa-solid fa-info fa-xl"></i>

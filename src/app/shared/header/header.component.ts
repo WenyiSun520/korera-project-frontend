@@ -17,10 +17,13 @@ export class HeaderComponent {
     public jwtHelper: JwtHelperService
   ) {}
 
-  toggleProfile() {
+  toggleProfile(event?: any) {
     if (this.authService.isAuthenticated()) {
-    this.isProfileShowed = !this.isProfileShowed;
-    //console.log(this.user)
+      this.isProfileShowed = !this.isProfileShowed;
+      //console.log(this.user)
+    }
+    if(event!== undefined){
+      this.isProfileShowed = event;
     }
   }
 }

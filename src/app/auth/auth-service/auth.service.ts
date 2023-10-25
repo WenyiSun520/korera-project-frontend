@@ -10,37 +10,60 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private isLogginedInSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
+  rememberMe: boolean = false;
+  private isLogginedInSubject = new BehaviorSubject<boolean>(
+    this.isAuthenticated()
+  );
   private token: any;
   private username: any;
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
-   authenticate(username: any, passwords: any) {
-    this.http
-      .post(`${SERVER_ADDRESS}api/auth/authenticate`, {
-        username: username,
-        password: passwords,
-      })
-      .subscribe({
-        next: (data) => (this.token = data),
-        error: (err) => {
-          console.log("Error subscribing authenticate event",err)
-          catchError(errorHandler);
-        },
-        complete: () => {
-          if (typeof localStorage !== 'undefined' && localStorage !== null) {
-            localStorage.setItem('token', this.token.token);
-            // this.username = username + '';
-            this.isLogginedInSubject.next(true);
-            // console.log('authenticate(): ' + this.username);
-          } else {
-            console.log('localstorage is not availble');
-          }
-        },
-      });
+  authenticate(username: any, passwords: any) {
+    if (
+      localStorage.getItem('token') &&
+      this.jwtHelper.isTokenExpired(this.getToken())
+    ) {
+      localStorage.clear();
+    }
+      this.http
+        .post(`${SERVER_ADDRESS}api/auth/authenticate`, {
+          username: username,
+          password: passwords,
+        })
+        .subscribe({
+          next: (data) => (this.token = data),
+          error: (err) => {
+            console.log('Error subscribing authenticate event', err);
+            catchError(errorHandler);
+          },
+          complete: () => {
+            console.log('rememberMe: ', this.rememberMe);
+            if (this.rememberMe === true) {
+              if (
+                typeof localStorage !== 'undefined' &&
+                localStorage !== null
+              ) {
+                localStorage.setItem('token', this.token.token);
+                this.isLogginedInSubject.next(true);
+              } else {
+                console.log('localstorage is not availble');
+              }
+            } else {
+              if (
+                typeof sessionStorage !== 'undefined' &&
+                sessionStorage !== null
+              ) {
+                sessionStorage.setItem('token', this.token.token);
+                this.isLogginedInSubject.next(true);
+              } else {
+                console.log('localstorage is not availble');
+              }
+            }
+          },
+        });
   }
 
-  isLoggedIn():Observable<boolean>{
+  isLoggedIn(): Observable<boolean> {
     return this.isLogginedInSubject.asObservable();
   }
 
@@ -56,7 +79,7 @@ export class AuthService {
       .subscribe({
         next: (data) => (this.token = data),
         error: (err) => {
-           console.log('Error subscribing register event',err);
+          console.log('Error subscribing register event', err);
           catchError(errorHandler);
         },
         complete: () => {
@@ -72,15 +95,18 @@ export class AuthService {
       });
   }
 
-  isAuthenticated():boolean {
+  isAuthenticated(): boolean {
     return (
-      localStorage.getItem('token')!== null &&
-      !this.jwtHelper.isTokenExpired(localStorage.getItem('token'))
+      this.getToken() !== null &&
+      !this.jwtHelper.isTokenExpired(this.getToken())
     );
+    
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem('token') === null
+      ? sessionStorage.getItem('token')
+      : localStorage.getItem('token');
   }
   getUsername() {
     return this.jwtHelper.decodeToken(this.getToken() as string).sub;
@@ -101,5 +127,8 @@ export class AuthService {
     return userRequest.pipe(catchError(errorHandler));
   }
 
-  logout() {}
+  logout() {
+    localStorage.clear()
+    sessionStorage.clear()
+  }
 }

@@ -21,23 +21,20 @@ export class ProjectTableComponent {
     this.resourceList = this.projectService.getSelectedResource();
   }
 
-  addToReadyToDeletedList(resource: any) {
-    console.log("add to ready list")
-        resource.ischecked = false;
-   this.readyToDeletedList.push(resource);
-   console.log(resource)
-    console.log(this.readyToDeletedList);
+  addOrRemoveReadyToDeletedList(e:any,resource:any){
+    console.log(e.target.checked);
+    if(e.target.checked){
+       // console.log('add to ready list');
+         this.readyToDeletedList.push(resource);
+    }else{
+     // console.log('remove from readt list');
+      let index = this.readyToDeletedList.findIndex(
+        (item: any) => item.resourceID === resource.resourceID
+      );
+      this.readyToDeletedList.splice(index, 1);
+    }
+   // console.log(this.readyToDeletedList);
 
-
-  }
-  removedFromReadyToDeletedList(resource: any) {
-    console.log('remove from readt list');
-        resource.ischecked = true;
-    let index = this.readyToDeletedList.findIndex(
-      (item: any) => item.resourceID === resource.resourceID
-    );
-    this.readyToDeletedList.splice(index, 1);
-    console.log(this.readyToDeletedList);
   }
 
   deleteSelectedResource() {

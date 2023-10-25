@@ -94,10 +94,11 @@ export class ProjectService {
     this.selectedResource.push(...resouce);
   }
   removeAll(resource: any[]) {
-    this.selectedResource = resource.filter(
+    this.selectedResource = this.selectedResource.filter(
       (re: any) => !resource.includes(re)
     );
-    console.log('selectedResource: ', this.selectedResource);
+    // console.log(resource);
+    // console.log('selectedResource: ', this.selectedResource);
   }
 
   addResourceToProject(currentProject: any) {

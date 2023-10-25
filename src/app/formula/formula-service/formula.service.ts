@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth-service/auth.service';
 import { ProjectService } from 'src/app/project/project-service/project.service';
-import { ResourceService } from 'src/app/resource/resource-service/resource.service';
 import { errorHandler } from 'src/app/shared/errorHandler';
 import { SERVER_ADDRESS } from 'src/app/shared/serverAddress';
 
@@ -13,11 +12,11 @@ import { SERVER_ADDRESS } from 'src/app/shared/serverAddress';
 export class FormulaService {
   filteredType: any = [];
   sampleResource:any;
+  formulaTypeList: any = [];
   constructor(
     private authService: AuthService,
     private projectService: ProjectService,
     private http: HttpClient,
-    private resourceService: ResourceService
   ) {}
 
   getEnumType() {

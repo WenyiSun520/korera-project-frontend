@@ -25,7 +25,10 @@
       </span>
     </span>
   </div>
-
+  <div class="remember">
+  <input id="rememberme" type="checkbox" (click)="toggleRememberMe()">
+  <label name="rememberme">Remember Me</label>
+  </div>
   <button type="submit" (click)="loginForm.valid? handleSubmit() : showErrorMsg('Can\'t log you in. Required Fields Missing')">Log In</button>
 </form>
 <span [ngStyle]="{color:'red'}">{{ ErrorMsg}}</span>

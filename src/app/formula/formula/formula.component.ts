@@ -55,6 +55,7 @@ export class FormulaComponent {
           console.log(data instanceof Map);
           if (data instanceof Map) {
             for (const [key, value] of data) {
+              this.formulaService.formulaTypeList.push(key);
               const list: any[] = value;
               const sample = list[0];
               this.resourceList.map((item: any) => {
@@ -81,10 +82,10 @@ export class FormulaComponent {
                   .sort((a: any, b: any) => a.resourceID - b.resourceID)
               );
             }
-            this.formulaMap = data
+            this.formulaMap = data;
           }
         },
-        error: (Err) => console.log(Err)
+        error: (Err) => console.log(Err),
       });
   }
   handleOpenEditFormulaBox(key: string, resourceID: number) {
@@ -94,30 +95,24 @@ export class FormulaComponent {
     this.toggleFormulsinput = '';
   }
   submitFieldValue(formulaId: number, formula: any) {
-    // console.log(formulaId);
-    // console.log(formula);
     if (this.formulaValueInput !== '' && formulaId !== -1) {
-     // formula.fieldValue = this.formulaValueInput;
       this.formulaService
         .updateFieldValue(formulaId, this.formulaValueInput)
         .subscribe({
           error: () => console.log('error when upding field value'),
           complete: () => {
             formula.fieldValue = this.formulaValueInput;
-              this.toggleFormulsinput = '';
-              this.formulaValueInput = '';
-            // console.log('updateFieldValue completed! ', formulaId, ' ', value)
+            this.toggleFormulsinput = '';
+            this.formulaValueInput = '';
           },
         });
     }
     if (this.formulaValueInput !== '' && formulaId === -1) {
       formula.fieldValue = this.formulaValueInput;
-      this.formulaService.addFormulaToList([formula])
-       formula.fieldValue = this.formulaValueInput;
-          this.toggleFormulsinput = '';
+      this.formulaService.addFormulaToList([formula]);
+      formula.fieldValue = this.formulaValueInput;
+      this.toggleFormulsinput = '';
     }
-
-  
   }
   goBack() {
     this.location.back();
@@ -127,5 +122,34 @@ export class FormulaComponent {
       return a.resourceId - b.resourceId;
     });
     return list;
+  }
+
+  evaluateFormulaType() {
+    // input the formula type and list
+    // fetch the formula
+    // fetch the list in formula
+    // calculate the answer and save to a new attribute in each object 
+    let quality = [1,2,3,4];
+    let price = [4,3,2,1];
+    let result=[];
+    let formula: string = 'a * b';
+    let a : number;
+    let b : number;
+    for(let i = 0 ; i < quality.length ; i++){
+      if(String(quality[i]) !== "" && String(price[i])!== ""){
+        a = quality[i];
+        b = price[i];
+        result[i] = eval(formula);
+
+      }else{
+        result[i] ="n/a"
+      }
+    console.log(result)
+  }
+
+
+
+
+
   }
 }

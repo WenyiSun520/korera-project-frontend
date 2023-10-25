@@ -1,9 +1,6 @@
 <div class="quantitySurveyTable">
   <p class="title">Quantity Survey Fields</p>
-  <div
-    class="row"
-    *ngFor="let item of formulaList.controls; let index = index"
-  >
+  <div class="row" *ngFor="let item of formulaList.controls; let index = index">
     <ng-container [formGroup]="item">
       <div class="field">
         <label name="field">Field*</label>
@@ -11,17 +8,22 @@
       </div>
       <div class="field">
         <label name="type">Type*</label>
-        <select formControlName="fieldType">
+        <select
+          formControlName="fieldType"
+        >
           <option value="">Select Field Type</option>
-          <option *ngFor="let type of enumType" value={{type}}>
+          <option *ngFor="let type of enumType" value="{{ type }}">
             {{ type | lowercase }}
           </option>
         </select>
       </div>
-      <div class="field"   
-      [style.visibility]="
-          item.value.type === 'FORMULA' ? 'visible' : 'hidden'
-        ">
+
+      <div
+        class="field"
+        [style.visibility]="
+          item.value.fieldType === 'FORMULA' ? 'visible' : 'hidden'
+        "
+      >
         <label name="formula">Formula</label>
          <input id="field" type="text" formControlName="fieldValue" />
       </div>
@@ -34,4 +36,3 @@
 </div>
 
 <button (click)="addFormula()">Add Field</button>
-

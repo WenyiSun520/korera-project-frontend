@@ -11,9 +11,8 @@
     (click)="toggleMenuOpen()"
   ></i>
   <nav class="nav-bar" *ngIf="toggleMenu === true">
-    <a [routerLink]="['resource-list']">Resource</a>
-    <a [routerLink]="['project-list']">Projects</a>
-
+    <a [routerLink]="['resource-list']" (click)="toggleMenuClosed()">Resource</a>
+    <a [routerLink]="['project-list']" (click)="toggleMenuClosed()">Projects</a>
     <!-- <a [routerLink]="['project-list/joined-table',currentProject.projectId,'formula']" >Formular</a> -->
   </nav>
 </section>

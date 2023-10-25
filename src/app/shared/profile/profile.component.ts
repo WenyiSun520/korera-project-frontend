@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth-service/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,6 +9,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ProfileComponent {
   @Input() user: any = {};
+  @Output() isProfileShowed = new EventEmitter<boolean>();
 
-  constructor() {}
+  constructor(private authService: AuthService, private router: Router) {}
+
+  logOut() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+    this.isProfileShowed.emit(false);
+  }
+
 }
