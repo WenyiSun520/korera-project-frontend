@@ -7,7 +7,7 @@ This repository only include the frontend/UI of the project. Server Repository:
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.5.
 
 ## Techinical Skills
-This project is primarily constructed using the Angular framework for the front-end, the Java Spring framework for the server-side, and the MySQL database for data storage and retrieval.
+This project is primarily constructed using the Angular framework for the front-end, the Java Spring framework for the [Server-side](https://github.com/WenyiSun520/korera)(Click to check server repo), and the MySQL database for data storage and retrieval.
 
 
 ## Development server
